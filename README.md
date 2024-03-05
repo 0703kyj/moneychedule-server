@@ -24,16 +24,21 @@
 ### User (BaseTime)
 - user_id
 - name
+- email
+- password
+- appPassword
 - birth
 - code
-- uuid
 - phoneNumber
 - followCount
+- locale
 
 ### Follow (BaseEntity)
 - follow_id
 - user_id
 - following_id
+- following_name
+- anniversary
 
 ### ScheduledUser
 - user_id
@@ -45,8 +50,13 @@
 - Period
   - startTime
   - endTime
-- color
 - memo
+- color_id
+
+### Color
+- color_id
+- name
+- color
 
 ### PaymentUser
 - user_id
@@ -55,6 +65,14 @@
 ### Payment (DeletableBaseEntity)
 - payment_id
 - paymentDate
-- type
-- amount
+- dtype
 - memo
+- amount
+
+### Withdraw (Payment)
+- payment_id
+- withdrawType
+
+### Deposit (Payment)
+- payment_id
+- depositType
