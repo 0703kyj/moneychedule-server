@@ -21,27 +21,25 @@
 - deleted_by
 
 ## Model
-### User (BaseTime)
-- user_id
+### Member (BaseTime)
+- member_id
 - name
 - email
 - password
-- appPassword
 - birth
-- code
 - phoneNumber
 - followCount
 - locale
 
 ### Follow (BaseEntity)
 - follow_id
-- user_id
+- member_id
 - following_id
 - following_name
 - anniversary
 
-### ScheduledUser
-- user_id
+### ScheduledMember
+- member_id
 - schedule_id
 
 ### Schedule (DeletableBaseEntity)
@@ -58,8 +56,8 @@
 - name
 - color
 
-### PaymentUser
-- user_id
+### PaymentMember
+- member_id
 - payment_id
 
 ### Payment (DeletableBaseEntity)
