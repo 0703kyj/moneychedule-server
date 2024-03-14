@@ -29,4 +29,5 @@ public class Member {
     private LocalDate birth;
     private Long followCount;
     private Locale locale;
+
 }
