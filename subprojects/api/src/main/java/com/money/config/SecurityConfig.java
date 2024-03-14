@@ -1,9 +1,9 @@
 package com.money.config;
 
-import com.money.config.filter.JwtAccessDeniedHandler;
-import com.money.config.filter.JwtAuthenticationEntryPoint;
-import com.money.config.filter.JwtSecurityConfig;
-import com.money.config.filter.TokenProvider;
+import com.money.config.jwt.JwtAccessDeniedHandler;
+import com.money.config.jwt.JwtAuthenticationEntryPoint;
+import com.money.config.jwt.JwtSecurityConfig;
+import com.money.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
@@ -48,27 +48,33 @@ public class SecurityConfig {
                         .accessDeniedHandler(jwtAccessDeniedHandler)
                         .authenticationEntryPoint(jwtAuthenticationEntryPoint)
                 )
+                .authorizeHttpRequests(registry ->
+                        registry.requestMatchers("/h2/**").permitAll()
+                                .requestMatchers("/favicon.ico").permitAll()
+                                .requestMatchers("/error").permitAll()
 
-                .authorizeHttpRequests(authorizeHttpRequests -> authorizeHttpRequests
-                        .requestMatchers("/actuator/**").permitAll()
+                )
+                .authorizeHttpRequests(registry -> registry // actuator, rest docs 경로, 실무에서는 상황에 따라 적절한 접근제어 필요
+                        .requestMatchers("/actuator/*").permitAll()
                         .requestMatchers("/swagger-ui.html").permitAll()
                         .requestMatchers("/swagger-ui/**").permitAll()
                         .requestMatchers("/v3/api-docs/**").permitAll()
-                        .requestMatchers("/error").permitAll()
+                )
+                .authorizeHttpRequests(registry -> registry
+                        .requestMatchers("/api/v1/auth").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .anyRequest().authenticated()
                 )
-
+                .authorizeHttpRequests(registry -> registry
+                        .anyRequest().authenticated()) // 나머지 경로는 jwt 인증 해야함
                 // 세션을 사용하지 않기 때문에 STATELESS로 설정
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-
                 // enable h2-console
                 .headers(headers ->
                         headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)
                 )
-
                 .with(new JwtSecurityConfig(tokenProvider), customizer -> {});
         return http.build();
     }
