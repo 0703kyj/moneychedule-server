@@ -1,4 +1,4 @@
-package com.money.service;
+package com.money.service.userdetail;
 
 import com.money.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
