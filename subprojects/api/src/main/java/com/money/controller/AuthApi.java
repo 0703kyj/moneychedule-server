@@ -2,6 +2,7 @@ package com.money.controller;
 
 import com.money.dto.request.EmailRequest;
 import com.money.dto.response.ErrorResponse;
+import com.money.dto.response.MemberRegisterResponse;
 import com.money.dto.response.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -39,9 +40,9 @@ public interface AuthApi {
     @PostMapping("/login/{provider}")
     void oauth2Login(@PathVariable("provider") @Parameter(example = "GOOGLE", description = "oAuth 제공자 이름")  String provider);
 
-    @Operation(summary = "회원가입", description = "회원가입을 진행합니다.")
-    @PostMapping(value = "/register")
-    void register(
+    @Operation(summary = "회원가입", description = "이메일 회원가입을 진행합니다.")
+    @PostMapping(value = "/register/email")
+    ResponseEntity<MemberRegisterResponse> registerToEmail(
             @Valid @RequestBody EmailRequest request
     );
 }

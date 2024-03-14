@@ -1,7 +1,4 @@
-package com.money.exception.auth;
-
-import com.money.exception.ErrorCode;
-import com.money.exception.MainException;
+package com.money.exception;
 
 public class PasswordMismatchException extends MainException {
 

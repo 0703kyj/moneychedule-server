@@ -62,8 +62,8 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/api/v1/auth").permitAll()
+                        .requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
-                        .anyRequest().authenticated()
                 )
                 .authorizeHttpRequests(registry -> registry
                         .anyRequest().authenticated()) // 나머지 경로는 jwt 인증 해야함

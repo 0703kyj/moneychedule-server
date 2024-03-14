@@ -27,7 +27,8 @@ public enum ErrorCode {
     /**
      * Member Errors
      */
-    NOT_FOUND_MEMBER("ME0001", "Member is not found");
+    NOT_FOUND_MEMBER("ME0001", "Member is not found"),
+    ALREADY_EXIST_MEMBER("ME0002", "Member is already exist");
 
     private final String code;
     private final String message;

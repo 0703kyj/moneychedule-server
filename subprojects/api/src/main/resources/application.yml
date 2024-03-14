@@ -30,9 +30,9 @@ spring:
       enabled: true
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:test;MODE=MySQL;
+    url: jdbc:h2:tcp://localhost/~/money;MODE=MySQL;
     username: sa
-    password:
+    password: sa
   jpa:
     hibernate:
       ddl-auto: create
