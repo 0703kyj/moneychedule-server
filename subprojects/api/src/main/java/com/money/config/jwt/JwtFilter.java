@@ -1,6 +1,5 @@
 package com.money.config.jwt;
 
-import com.money.config.authentication.JWTTokenAuthentication;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.ServletRequest;

@@ -1,4 +1,4 @@
-package com.money.config.authentication;
+package com.money.config.jwt;
 
 import java.util.Collection;
 import java.util.List;
@@ -7,12 +7,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
-/**
- * no5ing-server
- * User: CChuYong
- * Date: 2023/11/25
- * Time: 8:04 PM
- */
 @RequiredArgsConstructor
 public class JWTTokenAuthentication implements Authentication {
     private final String token;
