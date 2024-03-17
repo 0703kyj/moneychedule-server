@@ -64,16 +64,21 @@ public class Member {
                 .activated(true)
                 .build();
     }
-    public static Member of(String email, Platform platform, String platformId) {
+    public static Member of(String email, Platform platform, String platformId, Locale locale) {
         return Member.builder()
-                .name("username")
                 .email(email)
-                .phoneNumber("010-1111-1111")
                 .birth(LocalDate.now())
-                .locale(Locale.KOREA)
+                .locale(locale)
                 .platform(platform)
                 .platformId(platformId)
-                .activated(true)
+                .activated(false)
                 .build();
+    }
+
+    public void registerSocialMember(String name, String phoneNumber, LocalDate birth){
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.birth = birth;
+        this.activated = true;
     }
 }

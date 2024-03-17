@@ -7,9 +7,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
 
+    Optional<Member> findByEmail(String email);
     Optional<Member> findByEmailAndPlatform(String email, Platform platform);
 
-    Optional<Member> findByEmail(String email);
+    Optional<Member> findByPlatformAndPlatformId(Platform platform, String platformId);
 
     Boolean existsByEmailAndPlatform(String email, Platform platform);
 

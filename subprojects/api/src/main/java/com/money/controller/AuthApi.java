@@ -1,7 +1,8 @@
 package com.money.controller;
 
 import com.money.dto.request.EmailRequest;
-import com.money.dto.request.Oauth2Request;
+import com.money.dto.request.SocialLoginRequest;
+import com.money.dto.request.SocialRegisterRequest;
 import com.money.dto.response.ErrorResponse;
 import com.money.dto.response.MemberRegisterResponse;
 import com.money.dto.response.TokenResponse;
@@ -14,6 +15,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,9 +41,9 @@ public interface AuthApi {
 
     @Operation(summary = "네이티브 소셜 로그인", description = "네이티브(apple 등) 소셜 로그인을 진행합니다.")
     @PostMapping("/login/{provider}")
-    void oauth2Login(
+    ResponseEntity<TokenResponse> socialLogin(
             @PathVariable("provider") @Parameter(example = "GOOGLE", description = "oAuth 제공자 이름")  String provider,
-            @RequestBody @Valid Oauth2Request request
+            @RequestBody @Valid SocialLoginRequest request
     );
 
     @Operation(summary = "이메일 회원가입", description = "이메일 회원가입을 진행합니다.")
@@ -54,7 +56,7 @@ public interface AuthApi {
     @PostMapping(value = "/register/{provider}")
     ResponseEntity<MemberRegisterResponse> register(
             @PathVariable("provider") @Parameter(example = "GOOGLE", description = "oAuth 제공자 이름")  String provider,
-            @RequestBody @Valid Oauth2Request request
+            @RequestBody @Valid SocialRegisterRequest request
     );
 }
 

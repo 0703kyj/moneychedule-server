@@ -3,7 +3,8 @@ package com.money.controller.impl;
 import com.money.config.jwt.JwtFilter;
 import com.money.controller.AuthApi;
 import com.money.dto.request.EmailRequest;
-import com.money.dto.request.Oauth2Request;
+import com.money.dto.request.SocialLoginRequest;
+import com.money.dto.request.SocialRegisterRequest;
 import com.money.dto.response.MemberRegisterResponse;
 import com.money.dto.response.TokenResponse;
 import com.money.service.AuthService;
@@ -33,8 +34,16 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public void oauth2Login(String provider, Oauth2Request request) {
+    public ResponseEntity<TokenResponse> socialLogin(String provider, SocialLoginRequest request) {
+        TokenResponse response = authService.socialLogin(provider, request.token());
 
+        HttpHeaders httpHeaders = new HttpHeaders();
+        httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + response.token());
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .headers(httpHeaders)
+                .body(response);
     }
 
     @Override
@@ -46,9 +55,9 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public ResponseEntity<MemberRegisterResponse> register(String provider, Oauth2Request request) {
-        MemberRegisterResponse response = authService.registerToOauth2(provider,
-                request.email(), request.platformId());
+    public ResponseEntity<MemberRegisterResponse> register(String provider, SocialRegisterRequest request) {
+        MemberRegisterResponse response = authService.registerToOauth2(
+                provider, request.platformId(), request.name(), request.phoneNumber(), request.birth());
 
         return ResponseEntity.ok(response);
     }
