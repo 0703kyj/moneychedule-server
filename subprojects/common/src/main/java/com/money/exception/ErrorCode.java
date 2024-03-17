@@ -24,6 +24,7 @@ public enum ErrorCode {
     INVALID_TOKEN("AU0006","Invalid Token"),
     BLANK_TOKEN("AU0007", "Blank Token"),
     MISMATCH_PASSWORD("AU0008", "Mismatch Password"),
+    INVALID_PLATFORM("AU0009", "Invalid Platform"),
     /**
      * Member Errors
      */

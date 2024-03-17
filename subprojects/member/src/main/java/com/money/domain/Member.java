@@ -2,6 +2,8 @@ package com.money.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -34,17 +36,23 @@ public class Member {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
+
+    @Builder.Default
+    private Long followCount = 0L;
+
+    @Enumerated(EnumType.STRING)
+    private Platform platform;
+    private String platformId;
+
     private String name;
     private String email;
     private String password;
     private String phoneNumber;
     private LocalDate birth;
-    @Builder.Default
-    private Long followCount = 0L;
     private Locale locale;
     private boolean activated;
 
-    public static Member of(String email, String password) {
+    public static Member of(String email, String password, Platform platform) {
         return Member.builder()
                 .name("username")
                 .email(email)
@@ -52,7 +60,25 @@ public class Member {
                 .phoneNumber("010-1111-1111")
                 .birth(LocalDate.now())
                 .locale(Locale.KOREA)
+                .platform(platform)
                 .activated(true)
                 .build();
+    }
+    public static Member of(String email, Platform platform, String platformId, Locale locale) {
+        return Member.builder()
+                .email(email)
+                .birth(LocalDate.now())
+                .locale(locale)
+                .platform(platform)
+                .platformId(platformId)
+                .activated(false)
+                .build();
+    }
+
+    public void registerSocialMember(String name, String phoneNumber, LocalDate birth){
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        this.birth = birth;
+        this.activated = true;
     }
 }
