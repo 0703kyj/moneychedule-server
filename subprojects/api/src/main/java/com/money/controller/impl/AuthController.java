@@ -3,6 +3,7 @@ package com.money.controller.impl;
 import com.money.config.jwt.JwtFilter;
 import com.money.controller.AuthApi;
 import com.money.dto.request.EmailRequest;
+import com.money.dto.request.Oauth2Request;
 import com.money.dto.response.MemberRegisterResponse;
 import com.money.dto.response.TokenResponse;
 import com.money.service.AuthService;
@@ -24,6 +25,7 @@ public class AuthController implements AuthApi {
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + response.token());
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .headers(httpHeaders)
@@ -31,7 +33,7 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public void oauth2Login(String provider) {
+    public void oauth2Login(String provider, Oauth2Request request) {
 
     }
 
@@ -39,6 +41,14 @@ public class AuthController implements AuthApi {
     public ResponseEntity<MemberRegisterResponse> registerToEmail(EmailRequest request) {
         MemberRegisterResponse response = authService.registerToEmail(request.email(),
                 request.password());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<MemberRegisterResponse> register(String provider, Oauth2Request request) {
+        MemberRegisterResponse response = authService.registerToOauth2(provider,
+                request.email(), request.platformId());
 
         return ResponseEntity.ok(response);
     }
