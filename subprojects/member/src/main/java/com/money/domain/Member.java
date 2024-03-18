@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "member", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"email", "phoneNumber"})
 })
-public class Member {
+public class Member extends DeletableBaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
