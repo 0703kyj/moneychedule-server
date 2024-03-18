@@ -1,4 +1,4 @@
-package com.money.config.jwt;
+package com.money.system.config.jwt;
 
 import java.util.Collection;
 import java.util.List;

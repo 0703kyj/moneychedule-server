@@ -1,6 +1,6 @@
 rootProject.name = 'server'
 
-include 'api','common','member'
+include 'api','common','member','system'
 
 rootProject.children.forEach { project ->
     project.projectDir = file("subprojects/${project.name}")

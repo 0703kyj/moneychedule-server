@@ -1,6 +1,6 @@
 package com.money.service;
 
-import com.money.config.jwt.TokenProvider;
+import com.money.system.config.jwt.TokenProvider;
 import com.money.domain.Member;
 import com.money.domain.Platform;
 import com.money.dto.response.MemberRegisterResponse;
@@ -8,7 +8,7 @@ import com.money.dto.response.SocialMemberResponse;
 import com.money.dto.response.TokenResponse;
 import com.money.exception.MemberAlreadyExistException;
 import com.money.exception.NotFoundMemberException;
-import com.money.exception.auth.PasswordMismatchException;
+import com.money.system.exception.PasswordMismatchException;
 import com.money.repository.MemberRepository;
 import java.time.LocalDate;
 import java.util.Locale;
@@ -38,9 +38,9 @@ public class AuthService {
         return TokenResponse.of(findMember.getId(), token, true);
     }
 
-    public TokenResponse socialLogin(String provider, String token) {
+    public TokenResponse socialLogin(String provider, String accessToken) {
         Platform platform = Platform.fromString(provider);
-        SocialMemberResponse platformMember = socialMemberProvider.getPlatformMember(platform, token);
+        SocialMemberResponse platformMember = socialMemberProvider.getPlatformMember(platform, accessToken);
 
         return generateOAuthTokenResponse(
                 platform,
@@ -65,7 +65,7 @@ public class AuthService {
     }
 
     @Transactional
-    public MemberRegisterResponse registerToOauth2(
+    public MemberRegisterResponse registerToOauth(
             String provider, String platformId,
             String name, String phoneNumber, LocalDate birth
     ) {

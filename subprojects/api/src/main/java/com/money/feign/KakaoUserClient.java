@@ -1,4 +1,4 @@
-package com.money.service.feign;
+package com.money.feign;
 
 import com.money.dto.request.KakaoUserRequest;
 import com.money.dto.response.KakaoUser;

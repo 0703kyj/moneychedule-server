@@ -51,7 +51,7 @@
 - memo
 - color_id
 
-### Color
+### Color (EmbeddedEntity)
 - color_id
 - name
 - color

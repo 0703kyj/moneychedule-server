@@ -1,4 +1,4 @@
-package com.money.config.jwt;
+package com.money.system.config.jwt;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

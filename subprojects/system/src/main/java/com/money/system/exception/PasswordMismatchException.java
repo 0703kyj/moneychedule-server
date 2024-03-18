@@ -1,4 +1,4 @@
-package com.money.exception.auth;
+package com.money.system.exception;
 
 import com.money.exception.ErrorCode;
 import com.money.exception.MainException;

@@ -1,4 +1,4 @@
-package com.money.util;
+package com.money.system.util;
 
 import java.security.InvalidParameterException;
 

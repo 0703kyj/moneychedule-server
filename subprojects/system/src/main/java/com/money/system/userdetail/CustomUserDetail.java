@@ -1,4 +1,4 @@
-package com.money.service.userdetail;
+package com.money.system.userdetail;
 
 import com.money.domain.Member;
 import java.io.Serializable;

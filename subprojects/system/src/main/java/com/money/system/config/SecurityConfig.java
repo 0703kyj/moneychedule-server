@@ -1,9 +1,9 @@
-package com.money.config;
+package com.money.system.config;
 
-import com.money.config.jwt.JwtAccessDeniedHandler;
-import com.money.config.jwt.JwtAuthenticationEntryPoint;
-import com.money.config.jwt.JwtSecurityConfig;
-import com.money.config.jwt.TokenProvider;
+import com.money.system.config.jwt.JwtAccessDeniedHandler;
+import com.money.system.config.jwt.JwtAuthenticationEntryPoint;
+import com.money.system.config.jwt.JwtSecurityConfig;
+import com.money.system.config.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
