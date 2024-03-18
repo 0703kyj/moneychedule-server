@@ -1,4 +1,4 @@
-package com.money.config.jwt;
+package com.money.system.config.jwt;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

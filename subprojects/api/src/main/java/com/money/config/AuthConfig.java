@@ -1,7 +1,7 @@
 package com.money.config;
 
-import com.money.config.auth.AuthenticationPrincipalArgumentResolver;
 import com.money.config.auth.LoginInterceptor;
+import com.money.config.auth.AuthenticationPrincipalArgumentResolver;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;

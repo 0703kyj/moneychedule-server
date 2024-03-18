@@ -4,9 +4,9 @@ import com.money.domain.Platform;
 import com.money.dto.request.KakaoUserRequest;
 import com.money.dto.response.KakaoUser;
 import com.money.dto.response.SocialMemberResponse;
-import com.money.exception.auth.InvalidPlatformException;
-import com.money.exception.auth.InvalidTokenException;
-import com.money.service.feign.KakaoUserClient;
+import com.money.system.exception.InvalidPlatformException;
+import com.money.system.exception.InvalidTokenException;
+import com.money.feign.KakaoUserClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,32 +17,36 @@ public class SocialMemberProvider {
     private static final String AUTHORIZATION_BEARER = "Bearer ";
     private final KakaoUserClient kakaoUserClient;
 
-    public SocialMemberResponse getPlatformMember(Platform platform, String token) {
+    public SocialMemberResponse getPlatformMember(Platform platform, String accessToken) {
         if(platform.equals(Platform.KAKAO)){
-            return getKakaoMemberResponse(token);
+            return getKakaoMemberResponse(accessToken);
         }
         if (platform.equals(Platform.GOOGLE)) {
-            return getGoogleMemberResponse(token);
+            return getGoogleMemberResponse(accessToken);
         }
         if (platform.equals(Platform.APPLE)) {
-            return getAppleMemberResponse(token);
+            return getAppleMemberResponse(accessToken);
         }
         throw new InvalidPlatformException();
     }
 
-    private SocialMemberResponse getAppleMemberResponse(String token) {
+    private SocialMemberResponse getAppleMemberResponse(String accessToken) {
         return null;
     }
 
-    private SocialMemberResponse getGoogleMemberResponse(String token) {
+    private SocialMemberResponse getGoogleMemberResponse(String accessToken) {
         return null;
     }
 
-    private SocialMemberResponse getKakaoMemberResponse(String token) {
+    private SocialMemberResponse getKakaoMemberResponse(String accessToken) {
         try {
             KakaoUserRequest kakaoUserRequest = new KakaoUserRequest("[\"kakao_account.email\"]");
-            KakaoUser user = kakaoUserClient.getUser(kakaoUserRequest, AUTHORIZATION_BEARER + token);
-            return new SocialMemberResponse(String.valueOf(user.getId()), user.getEmail());
+            KakaoUser user = kakaoUserClient.getUser(kakaoUserRequest, AUTHORIZATION_BEARER + accessToken);
+
+            return SocialMemberResponse.builder()
+                    .email(user.getEmail())
+                    .platformId(String.valueOf(user.getId()))
+                    .build();
         } catch (FeignException e) {
             throw new InvalidTokenException();
         }

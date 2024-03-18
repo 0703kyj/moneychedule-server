@@ -1,6 +1,6 @@
 package com.money.controller.impl;
 
-import com.money.config.jwt.JwtFilter;
+import com.money.system.config.jwt.JwtFilter;
 import com.money.controller.AuthApi;
 import com.money.dto.request.EmailRequest;
 import com.money.dto.request.SocialLoginRequest;
@@ -35,7 +35,7 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<TokenResponse> socialLogin(String provider, SocialLoginRequest request) {
-        TokenResponse response = authService.socialLogin(provider, request.token());
+        TokenResponse response = authService.socialLogin(provider, request.accessToken());
 
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JwtFilter.AUTHORIZATION_HEADER, "Bearer " + response.token());
@@ -56,7 +56,7 @@ public class AuthController implements AuthApi {
 
     @Override
     public ResponseEntity<MemberRegisterResponse> register(String provider, SocialRegisterRequest request) {
-        MemberRegisterResponse response = authService.registerToOauth2(
+        MemberRegisterResponse response = authService.registerToOauth(
                 provider, request.platformId(), request.name(), request.phoneNumber(), request.birth());
 
         return ResponseEntity.ok(response);

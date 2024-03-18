@@ -1,6 +1,6 @@
 package com.money.config.auth;
 
-import com.money.config.jwt.TokenProvider;
+import com.money.system.config.jwt.TokenProvider;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpMethod;

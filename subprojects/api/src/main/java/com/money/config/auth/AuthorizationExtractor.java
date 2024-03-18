@@ -1,7 +1,7 @@
 package com.money.config.auth;
 
-import com.money.exception.auth.BlankTokenException;
-import com.money.exception.auth.InvalidBearerException;
+import com.money.system.exception.BlankTokenException;
+import com.money.system.exception.InvalidBearerException;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import lombok.NoArgsConstructor;
