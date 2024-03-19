@@ -1,4 +1,4 @@
-package com.money.dto.response;
+package com.money.dto.response.auth;
 
 import com.money.exception.ErrorCode;
 import io.swagger.v3.oas.annotations.media.Schema;

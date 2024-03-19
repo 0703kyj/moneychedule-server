@@ -1,7 +1,7 @@
 package com.money.feign;
 
-import com.money.dto.request.KakaoUserRequest;
-import com.money.dto.response.KakaoUser;
+import com.money.dto.request.auth.KakaoUserRequest;
+import com.money.dto.response.auth.KakaoUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.web.bind.annotation.GetMapping;

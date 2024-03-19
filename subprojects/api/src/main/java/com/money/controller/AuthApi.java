@@ -1,11 +1,11 @@
 package com.money.controller;
 
-import com.money.dto.request.EmailRequest;
-import com.money.dto.request.SocialLoginRequest;
-import com.money.dto.request.SocialRegisterRequest;
-import com.money.dto.response.ErrorResponse;
-import com.money.dto.response.MemberRegisterResponse;
-import com.money.dto.response.TokenResponse;
+import com.money.dto.request.auth.EmailRequest;
+import com.money.dto.request.auth.SocialLoginRequest;
+import com.money.dto.request.auth.SocialRegisterRequest;
+import com.money.dto.response.auth.ErrorResponse;
+import com.money.dto.response.auth.MemberRegisterResponse;
+import com.money.dto.response.auth.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -15,7 +15,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;

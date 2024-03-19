@@ -1,4 +1,4 @@
-package com.money.dto.request;
+package com.money.dto.request.auth;
 
 import jakarta.validation.constraints.NotBlank;
 

@@ -1,4 +1,4 @@
-package com.money.dto.response;
+package com.money.dto.response.auth;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;

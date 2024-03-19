@@ -1,11 +1,12 @@
-package com.money.service;
+package com.money.service.auth;
 
+import com.money.service.MemberService;
 import com.money.system.config.jwt.TokenProvider;
 import com.money.domain.Member;
-import com.money.domain.Platform;
-import com.money.dto.response.MemberRegisterResponse;
-import com.money.dto.response.SocialMemberResponse;
-import com.money.dto.response.TokenResponse;
+import com.money.util.Platform;
+import com.money.dto.response.auth.MemberRegisterResponse;
+import com.money.dto.response.auth.SocialMemberResponse;
+import com.money.dto.response.auth.TokenResponse;
 import com.money.exception.MemberAlreadyExistException;
 import com.money.exception.NotFoundMemberException;
 import com.money.system.exception.PasswordMismatchException;
@@ -26,6 +27,7 @@ public class AuthService {
 
     private final TokenProvider tokenProvider;
     private final MemberRepository memberRepository;
+    private final MemberService memberService;
     private final PasswordEncoder passwordEncoder;
     private final SocialMemberProvider socialMemberProvider;
 
@@ -102,7 +104,7 @@ public class AuthService {
                 })
                 .orElseGet(() -> {
                     Member oauthMember = Member.of(email, platform, platformId, Locale.KOREA);
-                    Member savedMember = memberRepository.save(oauthMember);
+                    Member savedMember = memberService.saveMember(oauthMember);
                     String token = issueToken(savedMember);
                     return new TokenResponse(savedMember.getId(), token, false);
                 });

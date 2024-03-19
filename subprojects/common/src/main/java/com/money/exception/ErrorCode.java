@@ -29,7 +29,8 @@ public enum ErrorCode {
      * Member Errors
      */
     NOT_FOUND_MEMBER("ME0001", "Member is not found"),
-    ALREADY_EXIST_MEMBER("ME0002", "Member is already exist");
+    ALREADY_EXIST_MEMBER("ME0002", "Member is already exist"),
+    EXPIRED_CODE("ME0003", "연결 코드가 만료되었습니다.");
 
     private final String code;
     private final String message;
