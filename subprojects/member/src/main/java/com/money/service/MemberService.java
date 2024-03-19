@@ -19,10 +19,10 @@ public class MemberService {
 
     public Member saveMember(Member member) {
         Optional<Member> findMember = memberRepository.findByEmailAndPlatform(member.getEmail(), member.getPlatform());
+
         if (findMember.isPresent()) {
             throw new MemberAlreadyExistException();
         }
-
         return memberRepository.save(member);
     }
 
