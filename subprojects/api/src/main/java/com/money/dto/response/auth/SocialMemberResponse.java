@@ -1,4 +1,4 @@
-package com.money.dto.response;
+package com.money.dto.response.auth;
 
 import lombok.Builder;
 

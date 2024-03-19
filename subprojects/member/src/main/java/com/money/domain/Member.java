@@ -1,21 +1,19 @@
 package com.money.domain;
 
+import com.money.util.Platform;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
+import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.Locale;
-import java.util.Set;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -44,6 +42,8 @@ public class Member extends DeletableBaseEntity{
     private Platform platform;
     private String platformId;
 
+    @Embedded
+    private InvitedCode invitedCode;
     private String name;
     private String email;
     private String password;
@@ -64,6 +64,7 @@ public class Member extends DeletableBaseEntity{
                 .activated(true)
                 .build();
     }
+
     public static Member of(String email, Platform platform, String platformId, Locale locale) {
         return Member.builder()
                 .email(email)
@@ -73,6 +74,10 @@ public class Member extends DeletableBaseEntity{
                 .platformId(platformId)
                 .activated(false)
                 .build();
+    }
+
+    public void allocateInvitedCode(InvitedCode code) {
+        this.invitedCode = code;
     }
 
     public void registerSocialMember(String name, String phoneNumber, LocalDate birth){

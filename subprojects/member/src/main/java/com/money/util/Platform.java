@@ -1,7 +1,6 @@
-package com.money.domain;
+package com.money.util;
 
 import java.security.InvalidParameterException;
-import lombok.EqualsAndHashCode;
 
 public enum Platform {
     KAKAO,GOOGLE,APPLE,EMAIL;

@@ -1,4 +1,4 @@
-package com.money.dto.response;
+package com.money.dto.response.auth;
 
 public record TokenResponse(
         Long memberId,

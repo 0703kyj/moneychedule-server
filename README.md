@@ -2,41 +2,41 @@
 
 # Domain
 ## Base
-### BaseTime
-- created_at
-- updated_at
 
 ### BaseEntity
 - created_at
-- updated_at
-- created_by
-- updated_by    
+- updated_at    
 
 ### DeletableBaseEntity
 - created_at
 - updated_at
 - deleted_at
-- created_by
-- updated_by
-- deleted_by
 
 ## Model
-### Member (BaseTime)
+### Member (DeletableBaseEntity)
 - member_id
+- followCount
 - name
+- invitedCode
 - email
 - password
 - birth
 - phoneNumber
-- followCount
 - locale
+- activated
 
-### Follow (BaseEntity)
+### Follow (DeletableBaseEntity)
 - follow_id
 - member_id
 - following_id
-- following_name
+- followingName
+- followStatus
 - anniversary
+
+### Team (BaseEntity)
+- team_id
+- invitedCode
+- 
 
 ### ScheduledMember
 - member_id
@@ -51,7 +51,7 @@
 - memo
 - color_id
 
-### Color (EmbeddedEntity)
+### Color (Schedule)
 - color_id
 - name
 - color

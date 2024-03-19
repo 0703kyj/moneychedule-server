@@ -2,12 +2,12 @@ package com.money.controller.impl;
 
 import com.money.system.config.jwt.JwtFilter;
 import com.money.controller.AuthApi;
-import com.money.dto.request.EmailRequest;
-import com.money.dto.request.SocialLoginRequest;
-import com.money.dto.request.SocialRegisterRequest;
-import com.money.dto.response.MemberRegisterResponse;
-import com.money.dto.response.TokenResponse;
-import com.money.service.AuthService;
+import com.money.dto.request.auth.EmailRequest;
+import com.money.dto.request.auth.SocialLoginRequest;
+import com.money.dto.request.auth.SocialRegisterRequest;
+import com.money.dto.response.auth.MemberRegisterResponse;
+import com.money.dto.response.auth.TokenResponse;
+import com.money.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

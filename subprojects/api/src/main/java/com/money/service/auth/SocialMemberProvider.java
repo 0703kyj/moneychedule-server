@@ -1,9 +1,9 @@
-package com.money.service;
+package com.money.service.auth;
 
-import com.money.domain.Platform;
-import com.money.dto.request.KakaoUserRequest;
-import com.money.dto.response.KakaoUser;
-import com.money.dto.response.SocialMemberResponse;
+import com.money.util.Platform;
+import com.money.dto.request.auth.KakaoUserRequest;
+import com.money.dto.response.auth.KakaoUser;
+import com.money.dto.response.auth.SocialMemberResponse;
 import com.money.system.exception.InvalidPlatformException;
 import com.money.system.exception.InvalidTokenException;
 import com.money.feign.KakaoUserClient;
