@@ -15,10 +15,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class MemberService {
+
     private final MemberRepository memberRepository;
 
     public Member saveMember(Member member) {
-        Optional<Member> findMember = memberRepository.findByEmailAndPlatform(member.getEmail(), member.getPlatform());
+        Optional<Member> findMember = memberRepository.findByEmailAndPlatform(member.getEmail(),
+                member.getPlatform());
 
         if (findMember.isPresent()) {
             throw new MemberAlreadyExistException();
@@ -26,16 +28,21 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public String validateInvitedCode(String invitedCode){
-        Member findMember = memberRepository.findByInvitedCode(invitedCode)
+    public void deleteInviteCodeIfExist(String inviteCode) {
+        Optional<Member> findMember = memberRepository.findByInvitedCode(inviteCode);
+        findMember.ifPresent(member -> member.allocateInvitedCode(null));
+    }
+
+    public Boolean validateInviteCode(String inviteCode) {
+        Member findMember = memberRepository.findByInvitedCode(inviteCode)
                 .orElseThrow(NotFoundMemberException::new);
 
         Date now = new Date();
-        Date expiredTime = findMember.getInvitedCode().getExpiredTime();
+        Date expiredTime = findMember.getInviteCode().getExpiredTime();
 
         if (now.after(expiredTime)) {
             throw new ExpiredCodeException();
         }
-        return invitedCode;
+        return true;
     }
 }
