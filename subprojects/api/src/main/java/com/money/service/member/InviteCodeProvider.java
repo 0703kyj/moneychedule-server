@@ -3,16 +3,16 @@ package com.money.service.member;
 import com.money.domain.InviteCode;
 import com.money.exception.OverFlowInviteCodeCountException;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class InviteCodeProvider {
 
-    private static final Set<InviteCode> generatedCodes = new HashSet<>();
+    private static final Set<InviteCode> generatedCodes = ConcurrentHashMap.newKeySet();
     private static final Random random = new Random();
-    private static final int CODE_LENGTH = 5;
+    private static final int CODE_LENGTH = 0;
     private static final int MIN = (int) Math.pow(10, CODE_LENGTH);
     private static final int MAX = 9 * MIN;
 
