@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.money.domain.InvitedCode;
+import com.money.domain.InviteCode;
 import com.money.domain.Member;
 import com.money.exception.ExpiredCodeException;
 import com.money.exception.MemberAlreadyExistException;
@@ -55,29 +55,28 @@ class MemberServiceTest {
     @Test
     @DisplayName("유효기간이 만료된 연결 코드는 예외를 던진다.")
     void expirationCodeException() {
-        InvitedCode invitedCode = new InvitedCode("12345",
+        InviteCode invitedCode = new InviteCode("12345",
                 new Date((new Date()).getTime() - 86400));
         Member member = Member.of("abc@naver.com", "fdsf", Platform.EMAIL);
         member.allocateInvitedCode(invitedCode);
 
         when(memberRepository.findByInvitedCode(any())).thenReturn(Optional.of(member));
 
-        String findCode = member.getInvitedCode().getCode();
-        assertThatThrownBy(() -> memberService.validateInvitedCode(findCode))
+        String findCode = member.getInviteCode().getCode();
+        assertThatThrownBy(() -> memberService.validateInviteCode(findCode))
                 .isInstanceOf(ExpiredCodeException.class);
     }
 
     @Test
-    @DisplayName("유효기간이 만료되지 않은 연결 코드는 연결 코드를 반환한다.")
+    @DisplayName("유효기간이 만료되지 않은 연결 코드는 True 를 반환한다.")
     void validCode() {
-        InvitedCode invitedCode = new InvitedCode("12345",
+        InviteCode invitedCode = new InviteCode("12345",
                 new Date((new Date()).getTime() + 86400));
         Member member = Member.of("abc@naver.com", "fdsf", Platform.EMAIL);
         member.allocateInvitedCode(invitedCode);
 
         when(memberRepository.findByInvitedCode(any())).thenReturn(Optional.of(member));
 
-        String findCode = memberService.validateInvitedCode(invitedCode.getCode());
-        assertThat(findCode).isEqualTo(invitedCode.getCode());
+        assertThat(memberService.validateInviteCode(invitedCode.getCode())).isTrue();
     }
 }

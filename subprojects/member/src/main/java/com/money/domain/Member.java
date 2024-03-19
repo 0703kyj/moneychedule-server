@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.persistence.UniqueConstraint;
-import jakarta.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.Locale;
 import lombok.AccessLevel;
@@ -43,7 +42,7 @@ public class Member extends DeletableBaseEntity{
     private String platformId;
 
     @Embedded
-    private InvitedCode invitedCode;
+    private InviteCode inviteCode;
     private String name;
     private String email;
     private String password;
@@ -76,8 +75,8 @@ public class Member extends DeletableBaseEntity{
                 .build();
     }
 
-    public void allocateInvitedCode(InvitedCode code) {
-        this.invitedCode = code;
+    public void allocateInvitedCode(InviteCode code) {
+        this.inviteCode = code;
     }
 
     public void registerSocialMember(String name, String phoneNumber, LocalDate birth){
