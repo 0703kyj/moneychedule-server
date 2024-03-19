@@ -15,9 +15,8 @@
 ## Model
 ### Member (DeletableBaseEntity)
 - member_id
-- followCount
+- group_id
 - name
-- invitedCode
 - email
 - password
 - birth
@@ -33,10 +32,12 @@
 - followStatus
 - anniversary
 
-### Team (BaseEntity)
-- team_id
-- invitedCode
-- 
+### Group (BaseEntity)
+- group_id
+- inviteCode
+- memberCount
+- anniversaryDate
+- anniversary
 
 ### ScheduledMember
 - member_id

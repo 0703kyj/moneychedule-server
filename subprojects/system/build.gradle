@@ -12,7 +12,7 @@ dependencies {
     implementation 'jakarta.xml.bind:jakarta.xml.bind-api:4.0.0'
 
     implementation project(':common')
-    implementation project(':member')
+    implementation project(':domain')
 }
 
 tasks.named('test') {
