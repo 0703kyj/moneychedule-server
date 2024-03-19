@@ -1,7 +1,7 @@
 rootProject.name = 'server'
 
 include 'api','common','system'
-include 'member','payment'
+include 'domain'
 include 'redis-code'
 
 rootProject.children.forEach { project ->

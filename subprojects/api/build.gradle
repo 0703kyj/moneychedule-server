@@ -18,7 +18,7 @@ dependencies {
 
 	implementation project(':common')
 	implementation project(":system")
-	implementation project(":member")
+	implementation project(":domain")
 }
 
 dependencyManagement {
