@@ -1,16 +1,16 @@
 package com.money.service.auth;
 
-import com.money.service.MemberService;
+import com.money.domain.member.entity.Member;
+import com.money.domain.member.exception.MemberAlreadyExistException;
+import com.money.domain.member.exception.NotFoundMemberException;
+import com.money.domain.member.repository.MemberRepository;
+import com.money.domain.member.service.MemberService;
+import com.money.domain.member.util.Platform;
 import com.money.system.config.jwt.TokenProvider;
-import com.money.domain.Member;
-import com.money.util.Platform;
 import com.money.dto.response.auth.MemberRegisterResponse;
 import com.money.dto.response.auth.SocialMemberResponse;
 import com.money.dto.response.auth.TokenResponse;
-import com.money.exception.MemberAlreadyExistException;
-import com.money.exception.NotFoundMemberException;
 import com.money.system.exception.PasswordMismatchException;
-import com.money.repository.MemberRepository;
 import java.time.LocalDate;
 import java.util.Locale;
 import lombok.RequiredArgsConstructor;

@@ -1,7 +1,7 @@
 package com.money.service.member;
 
-import com.money.domain.InviteCode;
-import com.money.exception.OverFlowInviteCodeCountException;
+import com.money.domain.member.entity.InviteCode;
+import com.money.domain.member.exception.OverFlowInviteCodeCountException;
 import java.util.Date;
 import java.util.Optional;
 import java.util.Random;

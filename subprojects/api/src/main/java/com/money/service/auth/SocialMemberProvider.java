@@ -1,6 +1,6 @@
 package com.money.service.auth;
 
-import com.money.util.Platform;
+import com.money.domain.member.util.Platform;
 import com.money.dto.request.auth.KakaoUserRequest;
 import com.money.dto.response.auth.KakaoUser;
 import com.money.dto.response.auth.SocialMemberResponse;

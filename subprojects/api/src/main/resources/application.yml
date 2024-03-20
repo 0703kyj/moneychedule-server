@@ -25,6 +25,10 @@ spring:
   config:
     activate:
       on-profile: local
+  data:
+    redis:
+      host: localhost
+      port: 6379
   h2:
     console:
       enabled: true

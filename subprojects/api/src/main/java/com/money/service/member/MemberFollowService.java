@@ -1,9 +1,9 @@
 package com.money.service.member;
 
-import com.money.domain.InviteCode;
+import com.money.domain.member.entity.InviteCode;
+import com.money.domain.member.repository.MemberRepository;
+import com.money.domain.member.service.MemberService;
 import com.money.dto.response.member.MemberFollowResponse;
-import com.money.repository.MemberRepository;
-import com.money.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

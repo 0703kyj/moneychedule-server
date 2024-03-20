@@ -1,4 +1,4 @@
-package com.money.domain.group.entity;
+package com.money.domain.team.entity;
 
 import jakarta.persistence.Embeddable;
 import java.time.LocalDate;
