@@ -32,8 +32,8 @@
 - followStatus
 - anniversary
 
-### Group (BaseEntity)
-- group_id
+### Team (BaseEntity)
+- team_id
 - inviteCode
 - memberCount
 - anniversaryDate

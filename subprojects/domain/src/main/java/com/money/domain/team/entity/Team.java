@@ -1,4 +1,4 @@
-package com.money.domain.group.entity;
+package com.money.domain.team.entity;
 
 import com.money.domain.BaseEntity;
 import com.money.domain.member.entity.Member;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Group extends BaseEntity {
+public class Team extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -29,7 +29,7 @@ public class Group extends BaseEntity {
     private String inviteCode;
     private Long memberCount;
 
-    @OneToMany(mappedBy = "member_id")
+    @OneToMany(mappedBy = "team")
     List<Member> members = new ArrayList<>();
 
     @Embedded

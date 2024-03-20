@@ -1,7 +1,7 @@
 package com.money.domain.member.entity;
 
 import com.money.domain.DeletableBaseEntity;
-import com.money.domain.group.entity.Group;
+import com.money.domain.team.entity.Team;
 import com.money.domain.member.util.Platform;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -39,8 +39,8 @@ public class Member extends DeletableBaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "group_id")
-    private Group group;
+    @JoinColumn(name = "team_id")
+    private Team team;
 
     @Enumerated(EnumType.STRING)
     private Platform platform;

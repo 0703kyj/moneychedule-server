@@ -1,9 +1,9 @@
 package com.money.controller.impl;
 
 import com.money.controller.MemberApi;
+import com.money.domain.member.service.MemberService;
 import com.money.dto.request.member.MemberFollowRequest;
 import com.money.dto.response.member.MemberFollowResponse;
-import com.money.service.MemberService;
 import com.money.service.member.MemberFollowService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

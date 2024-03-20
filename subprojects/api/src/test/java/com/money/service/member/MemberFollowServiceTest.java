@@ -1,6 +1,6 @@
 package com.money.service.member;
 
-import com.money.domain.InviteCode;
+import com.money.domain.member.entity.InviteCode;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

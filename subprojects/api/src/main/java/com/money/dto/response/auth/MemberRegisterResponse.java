@@ -1,6 +1,7 @@
 package com.money.dto.response.auth;
 
-import com.money.domain.Member;
+
+import com.money.domain.member.entity.Member;
 
 public record MemberRegisterResponse(
         Long memberId

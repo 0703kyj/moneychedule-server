@@ -1,6 +1,6 @@
 package com.money.system.userdetail;
 
-import com.money.domain.Member;
+import com.money.domain.member.entity.Member;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
