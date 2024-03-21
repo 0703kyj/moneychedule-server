@@ -8,6 +8,7 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
     api project(":common")
+    implementation project(":redis-code")
 }
 
 tasks.named('test') {

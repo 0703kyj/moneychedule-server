@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
@@ -83,5 +84,11 @@ public class Member extends DeletableBaseEntity {
         this.phoneNumber = phoneNumber;
         this.birth = birth;
         this.activated = true;
+    }
+
+    public void updateTeam(Team newTeam) {
+        this.team = newTeam;
+        newTeam.getMembers().add(this);
+        this.team.addMemberCount();
     }
 }

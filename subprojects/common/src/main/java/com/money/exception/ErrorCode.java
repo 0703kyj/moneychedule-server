@@ -31,7 +31,13 @@ public enum ErrorCode {
     NOT_FOUND_MEMBER("ME0001", "Member is not found"),
     ALREADY_EXIST_MEMBER("ME0002", "Member is already exist"),
     EXPIRED_CODE("ME0003", "연결 코드가 만료되었습니다."),
-    OVER_FLOW_INVITE_CODE("ME0004", "연결 코드 개수가 없습니다..");
+    OVER_FLOW_INVITE_CODE("ME0004", "연결 코드 개수가 없습니다.."),
+    /**
+     * Team Errors
+     */
+    NOT_FOUND_TEAM("TE0001", "해당 팀을 찾을 수 없습니다."),
+    FAIL_GENERATE_CODE("TE0002", "초대 코드 생성에 실패했습니다. 다시 요청해 주세요."),
+    OVER_FLOW_MEMBER_COUNT("TE0003", "초대 가능 인원 수가 초과되었습니다.");
 
     private final String code;
     private final String message;
