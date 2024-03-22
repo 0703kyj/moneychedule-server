@@ -1,7 +1,7 @@
 package com.money.domain.member.repository;
 
 import com.money.domain.member.entity.Member;
-import com.money.domain.member.util.Platform;
+import com.money.domain.member.entity.enums.Platform;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import com.money.domain.member.entity.Member;
 import com.money.domain.member.service.MemberService;
-import com.money.domain.member.util.Platform;
+import com.money.domain.member.entity.enums.Platform;
 import com.money.domain.team.exception.OverflowMemberCountException;
 import com.money.dto.response.member.InviteCodeResponse;
 import org.junit.jupiter.api.Test;

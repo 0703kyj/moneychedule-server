@@ -2,7 +2,7 @@ package com.money.domain.member.entity;
 
 import com.money.domain.DeletableBaseEntity;
 import com.money.domain.team.entity.Team;
-import com.money.domain.member.util.Platform;
+import com.money.domain.member.entity.enums.Platform;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -46,13 +46,14 @@ public class Member extends DeletableBaseEntity {
     private Platform platform;
     private String platformId;
 
-    private String name;
     private String email;
     private String password;
-    private String phoneNumber;
-    private LocalDate birth;
     private Locale locale;
     private boolean activated;
+
+    private String name;
+    private String phoneNumber;
+    private LocalDate birth;
 
     public static Member of(String email, String password, Platform platform) {
         return Member.builder()
@@ -70,7 +71,6 @@ public class Member extends DeletableBaseEntity {
     public static Member of(String email, Platform platform, String platformId, Locale locale) {
         return Member.builder()
                 .email(email)
-                .birth(LocalDate.now())
                 .locale(locale)
                 .platform(platform)
                 .platformId(platformId)

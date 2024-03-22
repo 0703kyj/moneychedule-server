@@ -69,9 +69,7 @@
 - amount
 
 ### Withdraw (Payment)
-- payment_id
 - withdrawType
 
 ### Deposit (Payment)
-- payment_id
 - depositType

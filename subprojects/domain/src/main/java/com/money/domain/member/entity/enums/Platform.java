@@ -1,4 +1,4 @@
-package com.money.domain.member.util;
+package com.money.domain.member.entity.enums;
 
 import java.security.InvalidParameterException;
 

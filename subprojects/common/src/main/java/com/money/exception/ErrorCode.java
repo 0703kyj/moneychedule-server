@@ -37,7 +37,12 @@ public enum ErrorCode {
      */
     NOT_FOUND_TEAM("TE0001", "해당 팀을 찾을 수 없습니다."),
     FAIL_GENERATE_CODE("TE0002", "초대 코드 생성에 실패했습니다. 다시 요청해 주세요."),
-    OVER_FLOW_MEMBER_COUNT("TE0003", "초대 가능 인원 수가 초과되었습니다.");
+    OVER_FLOW_MEMBER_COUNT("TE0003", "초대 가능 인원 수가 초과되었습니다."),
+
+    /**
+     * Payment Error
+     */
+    NOT_FOUND_WITHDRAW_TYPE("PE0001", "예금 종류를 찾을 수 없습니다.");
 
     private final String code;
     private final String message;
