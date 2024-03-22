@@ -5,7 +5,7 @@ import com.money.domain.member.exception.MemberAlreadyExistException;
 import com.money.domain.member.exception.NotFoundMemberException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
-import com.money.domain.member.util.Platform;
+import com.money.domain.member.entity.enums.Platform;
 import com.money.system.config.jwt.TokenProvider;
 import com.money.dto.response.auth.MemberRegisterResponse;
 import com.money.dto.response.auth.SocialMemberResponse;

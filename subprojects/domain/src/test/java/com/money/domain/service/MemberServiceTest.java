@@ -9,7 +9,7 @@ import com.money.domain.member.entity.Member;
 import com.money.domain.member.exception.MemberAlreadyExistException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
-import com.money.domain.member.util.Platform;
+import com.money.domain.member.entity.enums.Platform;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
