@@ -1,7 +1,6 @@
 package com.money.controller.impl;
 
 import com.money.controller.MemberApi;
-import com.money.domain.member.service.MemberService;
 import com.money.dto.request.member.SetTeamRequest;
 import com.money.dto.response.member.InviteCodeResponse;
 import com.money.dto.response.member.SetTeamResponse;

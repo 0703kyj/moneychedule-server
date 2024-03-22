@@ -36,6 +36,16 @@ public class MemberService {
         member.updateTeam(newTeam);
     }
 
+    @Transactional
+    public Team getTeam(Member member) {
+        if (member.getTeam() != null) {
+            return member.getTeam();
+        }
+        member.updateTeam(new Team());
+
+        return member.getTeam();
+    }
+
     public Optional<Long> getTeamIfExist(Member member) {
         if (member.getTeam() != null) {
             return Optional.of(member.getTeam().getId());
