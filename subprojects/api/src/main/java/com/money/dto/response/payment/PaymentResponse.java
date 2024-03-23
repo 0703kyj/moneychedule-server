@@ -1,9 +1,18 @@
 package com.money.dto.response.payment;
 
+import com.money.domain.payment.entity.Payment;
+import java.time.LocalDateTime;
+import lombok.Builder;
+
+@Builder
 public record PaymentResponse(
-        Long paymentId
+        Long paymentId,
+        LocalDateTime paymentDate
 ) {
-    public static PaymentResponse from(Long paymentId) {
-        return new PaymentResponse(paymentId);
+    public static PaymentResponse from(Payment payment) {
+        return PaymentResponse.builder()
+                .paymentId(payment.getId())
+                .paymentDate(payment.getPaymentDate())
+                .build();
     }
 }
