@@ -63,6 +63,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(registry -> registry
                         .requestMatchers("/api/v1/auth").permitAll()
                         .requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/dev/**").permitAll()
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                 )
                 .authorizeHttpRequests(registry -> registry

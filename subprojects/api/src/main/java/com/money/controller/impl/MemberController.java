@@ -1,6 +1,7 @@
 package com.money.controller.impl;
 
 import com.money.controller.MemberApi;
+import com.money.domain.member.repository.MemberRepository;
 import com.money.dto.request.member.SetTeamRequest;
 import com.money.dto.response.member.InviteCodeResponse;
 import com.money.dto.response.member.SetTeamResponse;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Controller;
 public class MemberController implements MemberApi {
 
     private final MemberInviteService memberInviteService;
+    private final MemberRepository memberRepository;
 
     @Override
     public ResponseEntity<InviteCodeResponse> getInviteCode(Long memberId) {
@@ -23,8 +25,7 @@ public class MemberController implements MemberApi {
 
     @Override
     public ResponseEntity<SetTeamResponse> setTeam(Long memberId, SetTeamRequest request) {
-        SetTeamResponse response = memberInviteService.setTeam(memberId,
-                request.inviteCode());
+        SetTeamResponse response = memberInviteService.setTeam(memberId, request.inviteCode());
         return ResponseEntity.ok(response);
     }
 }

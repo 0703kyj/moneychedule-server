@@ -22,6 +22,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Entity
 @Getter
@@ -31,6 +32,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "member", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"email", "phoneNumber"})
 })
+@Slf4j
 public class Member extends DeletableBaseEntity {
 
     @Id
@@ -87,6 +89,7 @@ public class Member extends DeletableBaseEntity {
 
     public void updateTeam(Team newTeam) {
         this.team = newTeam;
+        log.info("this.team = {}, newTeam = {}",this.team.getId(),newTeam.getId());
         newTeam.getMembers().add(this);
         this.team.addMemberCount();
     }

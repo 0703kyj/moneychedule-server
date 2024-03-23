@@ -11,17 +11,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 
 @RequiredArgsConstructor
+@Slf4j
 public class PaymentRepositoryCustomImpl implements PaymentRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
     @Override
     public Page<TodayDepositDto> searchDescPageTodayDeposit(Pageable pageable, List<Member> members) {
+        log.info("members.size = {}",members.size());
+
         List<TodayDepositDto> content = queryFactory
                 .select(Projections.constructor(TodayDepositDto.class,
                         deposit.id,
@@ -33,7 +37,8 @@ public class PaymentRepositoryCustomImpl implements PaymentRepositoryCustom {
                 .where(deposit.member.in(members),
                         deposit.paymentDate.after(LocalDate.now().atStartOfDay()),
                         deposit.paymentDate.before(LocalDateTime.now()))
-                .orderBy(deposit.amount.desc())
+                .orderBy(deposit.amount.desc(),
+                        deposit.member.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

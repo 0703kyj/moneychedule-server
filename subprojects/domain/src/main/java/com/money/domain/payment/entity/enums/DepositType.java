@@ -29,11 +29,12 @@ public enum DepositType {
         this.value = value;
     }
 
-    public DepositType fromString(String value) {
-        try {
-            return DepositType.valueOf(value);
-        } catch (IllegalArgumentException e) {
-            throw new NotFoundWithdrawTypeException();
+    public static DepositType fromString(String value) {
+        for (DepositType deposit : DepositType.values()) {
+            if (deposit.value.equalsIgnoreCase(value)) {
+                return deposit;
+            }
         }
+        throw new NotFoundWithdrawTypeException();
     }
 }
