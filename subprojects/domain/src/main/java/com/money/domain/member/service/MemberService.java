@@ -4,6 +4,7 @@ import com.money.domain.member.entity.Member;
 import com.money.domain.member.exception.MemberAlreadyExistException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.team.entity.Team;
+import com.money.domain.team.service.TeamService;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberService {
 
     private final MemberRepository memberRepository;
+    private final TeamService teamService;
 
     @Transactional
     public Member saveMember(Member member) {
@@ -41,7 +43,8 @@ public class MemberService {
         if (member.getTeam() != null) {
             return member.getTeam();
         }
-        member.updateTeam(new Team());
+        Team newTeam = teamService.createNewTeam();
+        member.updateTeam(newTeam);
 
         return member.getTeam();
     }

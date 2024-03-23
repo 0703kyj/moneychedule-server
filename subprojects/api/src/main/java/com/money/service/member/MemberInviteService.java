@@ -28,8 +28,7 @@ public class MemberInviteService {
 
     @Transactional
     public InviteCodeResponse getInviteCode(Long memberId) {
-        Member findMember = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
+        Member findMember = getMember(memberId);
 
         Optional<Long> teamId = memberService.getTeamIfExist(findMember);
         if (teamId.isEmpty()) {
@@ -43,13 +42,17 @@ public class MemberInviteService {
 
     @Transactional
     public SetTeamResponse setTeam(Long memberId, String inviteCode) {
-        Member findMember = memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
+        Member findMember = getMember(memberId);
 
         Team findTeam = teamService.findByInviteCode(inviteCode);
         teamService.validateEnterTeam(findTeam);
 
         memberService.enterTeam(findMember, findTeam);
         return SetTeamResponse.of(findTeam.getId(), findTeam.getMemberCount());
+    }
+
+    public Member getMember(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
     }
 }
