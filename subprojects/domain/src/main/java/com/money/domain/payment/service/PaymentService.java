@@ -24,6 +24,7 @@ public class PaymentService {
     private final MemberService memberService;
     private final MemberRepository memberRepository;
 
+    @Transactional
     public Payment saveDeposit(Long memberId, String memo, Long amount, String type) {
         Member findMember = getMember(memberId);
 
@@ -32,12 +33,13 @@ public class PaymentService {
         return paymentRepository.save(deposit);
     }
 
+    @Transactional
     public Page<TodayDepositDto> searchDescPageTodayDeposit(Long memberId, Pageable pageable) {
         Member findMember = getMember(memberId);
 
         Team findTeam = memberService.getTeam(findMember);
 
-        return paymentRepository.searchDescPageTodayDeposit(pageable, findTeam.getMembers());
+        return paymentRepository.searchDescPageTodayDeposit(pageable, findTeam.getId());
     }
 
     private Member getMember(Long memberId) {

@@ -31,4 +31,13 @@ public class Deposit extends Payment{
         deposit.initPayment(member, memo, amount);
         return deposit;
     }
+
+    public static Payment of(Member member, String memo, Long amount, String type, LocalDateTime date) {
+        Deposit deposit = Deposit.builder()
+                .depositType(DepositType.fromString(type))
+                .build();
+
+        deposit.initPayment(member, memo, amount, date);
+        return deposit;
+    }
 }

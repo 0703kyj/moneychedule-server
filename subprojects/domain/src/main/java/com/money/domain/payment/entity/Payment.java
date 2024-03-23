@@ -45,4 +45,10 @@ public class Payment extends BaseEntity {
         this.amount = amount;
         this.paymentDate = LocalDateTime.now();
     }
+    protected void initPayment(Member member, String memo, Long amount, LocalDateTime date) {
+        this.member = member;
+        this.memo = memo;
+        this.amount = amount;
+        this.paymentDate = date;
+    }
 }

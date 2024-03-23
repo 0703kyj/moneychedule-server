@@ -24,7 +24,7 @@ public class PaymentController implements PaymentApi {
         Payment deposit = paymentService.saveDeposit(memberId, request.memo(), request.amount(),
                 request.depositType());
 
-        PaymentResponse response = PaymentResponse.from(deposit.getId());
+        PaymentResponse response = PaymentResponse.from(deposit);
         return ResponseEntity.ok(response);
     }
 
