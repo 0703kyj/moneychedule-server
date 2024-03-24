@@ -10,6 +10,7 @@ import com.money.domain.payment.entity.Payment;
 import com.money.domain.payment.repository.PaymentRepository;
 import com.money.domain.team.entity.Team;
 import java.time.LocalDate;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -49,7 +50,10 @@ public class PaymentService {
 
         Team findTeam = memberService.getTeam(findMember);
 
-        return paymentRepository.getTotalDepositPerMonth(date, findTeam.getId());
+        Long totalDepositPerMonth = paymentRepository.getTotalDepositPerMonth(date,
+                findTeam.getId());
+
+        return Objects.requireNonNullElse(totalDepositPerMonth, 0L);
     }
 
     private Member getMember(Long memberId) {

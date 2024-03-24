@@ -6,12 +6,11 @@ import com.money.domain.payment.entity.Payment;
 import com.money.domain.payment.service.PaymentService;
 import com.money.dto.request.payment.DepositRequest;
 import com.money.dto.response.payment.PaymentResponse;
-import com.money.dto.response.payment.TodayPaymentRankResponse;
+import com.money.dto.response.payment.TodayDepositRankResponse;
 import com.money.dto.response.payment.TotalMonthDepositResponse;
 import com.money.exception.InvalidDateException;
 import java.time.DateTimeException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -34,9 +33,9 @@ public class PaymentController implements PaymentApi {
     }
 
     @Override
-    public ResponseEntity<TodayPaymentRankResponse> getTodayPaymentRank(Long memberId, Pageable pageable) {
+    public ResponseEntity<TodayDepositRankResponse> getTodayDepositRank(Long memberId, Pageable pageable) {
         Page<TodayDepositDto> deposits = paymentService.searchDescPageTodayDeposit(memberId, pageable);
-        TodayPaymentRankResponse response = TodayPaymentRankResponse.from(deposits);
+        TodayDepositRankResponse response = TodayDepositRankResponse.from(deposits);
 
         return ResponseEntity.ok(response);
     }

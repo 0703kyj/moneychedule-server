@@ -3,7 +3,7 @@ package com.money.controller;
 import com.money.config.auth.MemberId;
 import com.money.dto.request.payment.DepositRequest;
 import com.money.dto.response.payment.PaymentResponse;
-import com.money.dto.response.payment.TodayPaymentRankResponse;
+import com.money.dto.response.payment.TodayDepositRankResponse;
 import com.money.dto.response.payment.TotalMonthDepositResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -24,8 +24,14 @@ import org.springframework.web.bind.annotation.RestController;
 @SecurityRequirement(name = "JWT")
 public interface PaymentApi {
 
+    @PostMapping("/deposit")
+    ResponseEntity<PaymentResponse> createDeposit(
+            @MemberId Long memberId,
+            @RequestBody @Valid DepositRequest request
+    );
+
     @GetMapping(value = "/today", params = {"page","size"})
-    ResponseEntity<TodayPaymentRankResponse> getTodayPaymentRank(
+    ResponseEntity<TodayDepositRankResponse> getTodayDepositRank(
             @MemberId Long memberId,
             Pageable pageable
     );
@@ -39,11 +45,5 @@ public interface PaymentApi {
             @RequestParam
             @Parameter(description = "조회할 월", example = "3")
             int month
-    );
-
-    @PostMapping("/deposit")
-    ResponseEntity<PaymentResponse> createDeposit(
-            @MemberId Long memberId,
-            @RequestBody @Valid DepositRequest request
     );
 }
