@@ -13,6 +13,7 @@ public enum ErrorCode {
     UNKNOWN_SERVER_ERROR("CM0001", "Unknown Server Error"),
     INVALID_INPUT_VALUE("CM0002", "Invalid Input Value"),
     METHOD_NOT_ALLOWED("CM0003", "Method Not Allowed"),
+    INVALID_DATE("CM0004", "유효하지 않은 연 또는 월입니다."),
     /**
      * Auth Related Errors
      */
