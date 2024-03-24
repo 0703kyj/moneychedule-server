@@ -1,6 +1,6 @@
 package com.money.domain.payment.entity.enums;
 
-import com.money.domain.payment.exception.NotFoundWithdrawTypeException;
+import com.money.domain.payment.exception.NotFoundDepositTypeException;
 
 public enum DepositType {
     SALARY("월급"),
@@ -20,6 +20,6 @@ public enum DepositType {
                 return deposit;
             }
         }
-        throw new NotFoundWithdrawTypeException();
+        throw new NotFoundDepositTypeException();
     }
 }

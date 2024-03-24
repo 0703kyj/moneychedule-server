@@ -5,8 +5,11 @@ import com.money.domain.member.exception.NotFoundMemberException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
 import com.money.domain.payment.dto.TodayDepositDto;
+import com.money.domain.payment.dto.TodayWithdrawDto;
 import com.money.domain.payment.entity.Deposit;
 import com.money.domain.payment.entity.Payment;
+import com.money.domain.payment.entity.Withdraw;
+import com.money.domain.payment.exception.InvalidPaymentException;
 import com.money.domain.payment.repository.PaymentRepository;
 import com.money.domain.team.entity.Team;
 import java.time.LocalDate;
@@ -28,11 +31,22 @@ public class PaymentService {
 
     @Transactional
     public Payment saveDeposit(Long memberId, String memo, Long amount, String type) {
-        Member findMember = getMember(memberId);
+        validatePayment(amount);
 
+        Member findMember = getMember(memberId);
         Payment deposit = Deposit.of(findMember, memo, amount, type);
 
         return paymentRepository.save(deposit);
+    }
+
+    @Transactional
+    public Payment saveWithdraw(Long memberId, String memo, Long amount, String type) {
+        validatePayment(amount);
+
+        Member findMember = getMember(memberId);
+        Payment withdraw = Withdraw.of(findMember, memo, amount, type);
+
+        return paymentRepository.save(withdraw);
     }
 
     @Transactional
@@ -45,6 +59,15 @@ public class PaymentService {
     }
 
     @Transactional
+    public Page<TodayWithdrawDto> searchDescPageTodayWithdraw(Long memberId, Pageable pageable) {
+        Member findMember = getMember(memberId);
+
+        Team findTeam = memberService.getTeam(findMember);
+
+        return paymentRepository.searchDescPageTodayWithdraw(pageable, findTeam.getId());
+    }
+
+    @Transactional
     public Long getTotalDepositPerMonth(Long memberId, LocalDate date) {
         Member findMember = getMember(memberId);
 
@@ -54,6 +77,24 @@ public class PaymentService {
                 findTeam.getId());
 
         return Objects.requireNonNullElse(totalDepositPerMonth, 0L);
+    }
+
+    @Transactional
+    public Long getTotalWithdrawPerMonth(Long memberId, LocalDate date) {
+        Member findMember = getMember(memberId);
+
+        Team findTeam = memberService.getTeam(findMember);
+
+        Long totalDepositPerMonth = paymentRepository.getTotalWithdrawPerMonth(date,
+                findTeam.getId());
+
+        return Objects.requireNonNullElse(totalDepositPerMonth, 0L);
+    }
+
+    private void validatePayment(Long amount) {
+        if (amount <= 0) {
+            throw new InvalidPaymentException();
+        }
     }
 
     private Member getMember(Long memberId) {

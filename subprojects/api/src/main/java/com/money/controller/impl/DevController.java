@@ -47,7 +47,17 @@ public class DevController implements DevApi {
                 .orElseThrow(NotFoundMemberException::new);
 
         for (int i = 0; i < 100; i++) {
-            paymentService.saveDeposit(member.getId(),"1", (long) i,"식비");
+            paymentService.saveDeposit(member.getId(),"1", (long) i,"월급");
+        }
+    }
+
+    @Override
+    public void setWithdraw(String email) {
+        Member member = memberRepository.findByEmailAndPlatform(email, Platform.EMAIL)
+                .orElseThrow(NotFoundMemberException::new);
+
+        for (int i = 0; i < 100; i++) {
+            paymentService.saveWithdraw(member.getId(),"1", (long) i,"식비");
         }
     }
 }

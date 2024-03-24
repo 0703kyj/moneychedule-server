@@ -2,9 +2,11 @@ package com.money.controller;
 
 import com.money.config.auth.MemberId;
 import com.money.dto.request.payment.DepositRequest;
+import com.money.dto.request.payment.WithdrawRequest;
 import com.money.dto.response.payment.PaymentResponse;
 import com.money.dto.response.payment.TodayDepositRankResponse;
-import com.money.dto.response.payment.TotalMonthDepositResponse;
+import com.money.dto.response.payment.TodayWithdrawRankResponse;
+import com.money.dto.response.payment.TotalMonthPaymentResponse;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -30,14 +32,37 @@ public interface PaymentApi {
             @RequestBody @Valid DepositRequest request
     );
 
-    @GetMapping(value = "/today", params = {"page","size"})
+    @PostMapping("/withdraw")
+    ResponseEntity<PaymentResponse> createWithdraw(
+            @MemberId Long memberId,
+            @RequestBody @Valid WithdrawRequest request
+    );
+
+    @GetMapping(value = "/today/deposit", params = {"page","size"})
     ResponseEntity<TodayDepositRankResponse> getTodayDepositRank(
             @MemberId Long memberId,
             Pageable pageable
     );
 
-    @GetMapping("/deposit")
-    ResponseEntity<TotalMonthDepositResponse> getTotalMonthDeposit(
+    @GetMapping(value = "/today/withdraw", params = {"page","size"})
+    ResponseEntity<TodayWithdrawRankResponse> getTodayWithdrawRank(
+            @MemberId Long memberId,
+            Pageable pageable
+    );
+
+    @GetMapping("/month/deposit")
+    ResponseEntity<TotalMonthPaymentResponse> getTotalMonthDeposit(
+            @MemberId Long memberId,
+            @RequestParam
+            @Parameter(description = "조회할 년", example = "2024")
+            int year,
+            @RequestParam
+            @Parameter(description = "조회할 월", example = "3")
+            int month
+    );
+
+    @GetMapping("/month/withdraw")
+    ResponseEntity<TotalMonthPaymentResponse> getTotalMonthWithdraw(
             @MemberId Long memberId,
             @RequestParam
             @Parameter(description = "조회할 년", example = "2024")

@@ -44,7 +44,8 @@ public enum ErrorCode {
      * Payment Error
      */
     NOT_FOUND_DEPOSIT_TYPE("PE0001", "입금 종류를 찾을 수 없습니다."),
-    NOT_FOUND_WITHDRAW_TYPE("PE0002", "지출 종류를 찾을 수 없습니다.");
+    NOT_FOUND_WITHDRAW_TYPE("PE0002", "지출 종류를 찾을 수 없습니다."),
+    INVALID_PAYMENT("PE0003", "입금 및 지출 금액을 0이하일 수 없습니다.");
 
     private final String code;
     private final String message;

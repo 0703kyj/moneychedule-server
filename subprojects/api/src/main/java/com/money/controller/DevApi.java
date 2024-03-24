@@ -23,4 +23,10 @@ public interface DevApi {
             @Schema(description = "이메일", example = "0703kyj@naver.com")
             @RequestParam String email
     );
+
+    @PostMapping("/withdraw")
+    void setWithdraw(
+            @Schema(description = "이메일", example = "0703kyj@naver.com")
+            @RequestParam String email
+    );
 }
