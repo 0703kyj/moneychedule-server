@@ -29,11 +29,12 @@ public enum WithdrawType {
         this.value = value;
     }
 
-    public WithdrawType fromString(String value) {
-        try {
-            return WithdrawType.valueOf(value);
-        } catch (IllegalArgumentException e) {
-            throw new NotFoundWithdrawTypeException();
+    public static WithdrawType fromString(String value) {
+        for (WithdrawType withdraw : WithdrawType.values()) {
+            if (withdraw.value.equalsIgnoreCase(value)) {
+                return withdraw;
+            }
         }
+        throw new NotFoundWithdrawTypeException();
     }
 }
