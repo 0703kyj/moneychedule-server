@@ -39,6 +39,7 @@ class PaymentRepositoryTest {
     @Test
     void 멤버의_지출_내역을_공유_중인_맴버의_것과_함께_내림차순으로_가져올_수_있다() {
         int PAGE_SIZE = 5;
+        String depositType = "용돈";
 
         Member member1 = memberRepository.save(Member.of("abc@naver.com", "abc", Platform.EMAIL));
         Member member2 = memberRepository.save(Member.of("abc2@naver.com", "abc", Platform.EMAIL));
@@ -48,10 +49,10 @@ class PaymentRepositoryTest {
         member2.updateTeam(newTeam);
         for (int i = 0; i < 10; i++) {
             if (i % 2 == 0) {
-                Payment deposit = Deposit.of(member1, "1", (long) i, "식비");
+                Payment deposit = Deposit.of(member1, "1", (long) i, depositType);
                 paymentRepository.save(deposit);
             }else {
-                Payment deposit2 = Deposit.of(member2, "1", (long) i, "식비");
+                Payment deposit2 = Deposit.of(member2, "1", (long) i, depositType);
                 paymentRepository.save(deposit2);
             }
         }
@@ -76,6 +77,8 @@ class PaymentRepositoryTest {
 
     @Test
     void 공유_중인_맴버의_지출도_함께_계산한다() {
+        String depositType = "용돈";
+
         Member member1 = memberRepository.save(Member.of("abc@naver.com", "abc", Platform.EMAIL));
         Member member2 = memberRepository.save(Member.of("abc2@naver.com", "abc", Platform.EMAIL));
         Team newTeam = teamRepository.save(new Team());
@@ -84,8 +87,8 @@ class PaymentRepositoryTest {
         member2.updateTeam(newTeam);
         int sum = 0;
         for (int i = 0; i < 10; i++) {
-            Payment deposit = Deposit.of(member1, "1", (long) i, "식비");
-            Payment deposit2 = Deposit.of(member2, "1", (long) i, "식비");
+            Payment deposit = Deposit.of(member1, "1", (long) i, depositType);
+            Payment deposit2 = Deposit.of(member2, "1", (long) i, depositType);
             paymentRepository.save(deposit);
             paymentRepository.save(deposit2);
             sum += 2 * i;
@@ -100,20 +103,21 @@ class PaymentRepositoryTest {
     @Test
     void 해당_달에_속해있는_모든_지출의_합을_가져올_수_있다() {
         int MINUS_MONTH = 1;
+        String depositType = "용돈";
 
         Member member = memberRepository.save(Member.of("abc@naver.com", "abc", Platform.EMAIL));
         LocalDateTime date = LocalDateTime.now().minusMonths(MINUS_MONTH);
 
         int sum = 0;
         for (int i = 0; i < 10; i++) {
-            Payment deposit = Deposit.of(member, "1", (long) i, "식비");
+            Payment deposit = Deposit.of(member, "1", (long) i, depositType);
             paymentRepository.save(deposit);
             sum += i;
         }
 
         int sumMinusMonth = 0;
         for (int i = 0; i < 12; i++) {
-            Payment depositMinusMonth = Deposit.of(member, "1", (long) i, "식비", date);
+            Payment depositMinusMonth = Deposit.of(member, "1", (long) i, depositType, date);
             paymentRepository.save(depositMinusMonth);
             sumMinusMonth += i;
         }
