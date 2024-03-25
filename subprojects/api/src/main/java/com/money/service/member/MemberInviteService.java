@@ -22,13 +22,12 @@ import org.springframework.transaction.annotation.Transactional;
 public class MemberInviteService {
 
     private final TeamInviteCodeProvider teamInviteCodeProvider;
-    private final MemberRepository memberRepository;
     private final MemberService memberService;
     private final TeamService teamService;
 
     @Transactional
     public InviteCodeResponse getInviteCode(Long memberId) {
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
 
         Optional<Long> teamId = memberService.getTeamIfExist(findMember);
         if (teamId.isEmpty()) {
@@ -42,17 +41,12 @@ public class MemberInviteService {
 
     @Transactional
     public SetTeamResponse setTeam(Long memberId, String inviteCode) {
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
 
         Team findTeam = teamService.findByInviteCode(inviteCode);
         teamService.validateEnterTeam(findTeam);
 
         memberService.enterTeam(findMember, findTeam);
         return SetTeamResponse.of(findTeam.getId(), findTeam.getMemberCount());
-    }
-
-    public Member getMember(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
     }
 }

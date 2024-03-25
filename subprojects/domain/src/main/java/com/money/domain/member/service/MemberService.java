@@ -2,6 +2,7 @@ package com.money.domain.member.service;
 
 import com.money.domain.member.entity.Member;
 import com.money.domain.member.exception.MemberAlreadyExistException;
+import com.money.domain.member.exception.NotFoundMemberException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.team.entity.Team;
 import com.money.domain.team.service.TeamService;
@@ -47,6 +48,11 @@ public class MemberService {
         member.updateTeam(newTeam);
 
         return member.getTeam();
+    }
+
+    public Member findById(Long memberId) {
+        return memberRepository.findById(memberId)
+                .orElseThrow(NotFoundMemberException::new);
     }
 
     public Optional<Long> getTeamIfExist(Member member) {
