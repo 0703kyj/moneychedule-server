@@ -33,23 +33,24 @@
 - anniversaryDate
 - anniversary
 
-### ScheduledMember
+### Attendee
 - member_id
 - schedule_id
 
 ### Schedule (DeletableBaseEntity)
 - schedule_id
-- scheduleDate
-- Period
-  - startTime
-  - endTime
+- EventDate
+  - date
+  - time
 - memo
-- color_id
+- label_id
+- repeatType
 
-### Color (Schedule)
-- color_id
+### Label (Schedule)
+- label_id
+- team_id
 - name
-- color
+- value
 
 ### Payment (DeletableBaseEntity)
 - payment_id
