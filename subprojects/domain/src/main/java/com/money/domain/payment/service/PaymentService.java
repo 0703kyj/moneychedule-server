@@ -27,13 +27,12 @@ public class PaymentService {
 
     private final PaymentRepository paymentRepository;
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     @Transactional
     public Payment saveDeposit(Long memberId, String memo, Long amount, String type) {
         validatePayment(amount);
 
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
         Payment deposit = Deposit.of(findMember, memo, amount, type);
 
         return paymentRepository.save(deposit);
@@ -43,7 +42,7 @@ public class PaymentService {
     public Payment saveWithdraw(Long memberId, String memo, Long amount, String type) {
         validatePayment(amount);
 
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
         Payment withdraw = Withdraw.of(findMember, memo, amount, type);
 
         return paymentRepository.save(withdraw);
@@ -51,7 +50,7 @@ public class PaymentService {
 
     @Transactional
     public Page<TodayDepositDto> searchDescPageTodayDeposit(Long memberId, Pageable pageable) {
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
 
         Team findTeam = memberService.getTeam(findMember);
 
@@ -60,7 +59,7 @@ public class PaymentService {
 
     @Transactional
     public Page<TodayWithdrawDto> searchDescPageTodayWithdraw(Long memberId, Pageable pageable) {
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
 
         Team findTeam = memberService.getTeam(findMember);
 
@@ -69,7 +68,7 @@ public class PaymentService {
 
     @Transactional
     public Long getTotalDepositPerMonth(Long memberId, LocalDate date) {
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
 
         Team findTeam = memberService.getTeam(findMember);
 
@@ -81,7 +80,7 @@ public class PaymentService {
 
     @Transactional
     public Long getTotalWithdrawPerMonth(Long memberId, LocalDate date) {
-        Member findMember = getMember(memberId);
+        Member findMember = memberService.findById(memberId);
 
         Team findTeam = memberService.getTeam(findMember);
 
@@ -95,10 +94,5 @@ public class PaymentService {
         if (amount <= 0) {
             throw new InvalidPaymentException();
         }
-    }
-
-    private Member getMember(Long memberId) {
-        return memberRepository.findById(memberId)
-                .orElseThrow(NotFoundMemberException::new);
     }
 }
