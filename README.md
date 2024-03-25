@@ -15,22 +15,16 @@
 ## Model
 ### Member (DeletableBaseEntity)
 - member_id
-- group_id
-- name
+- team_id
+- platform
+- platform_id
 - email
 - password
-- birth
-- phoneNumber
 - locale
 - activated
-
-### Follow (DeletableBaseEntity)
-- follow_id
-- member_id
-- following_id
-- followingName
-- followStatus
-- anniversary
+- name
+- birth
+- phoneNumber
 
 ### Team (BaseEntity)
 - team_id
@@ -57,12 +51,9 @@
 - name
 - color
 
-### PaymentMember
-- member_id
-- payment_id
-
 ### Payment (DeletableBaseEntity)
 - payment_id
+- member_id
 - paymentDate
 - dtype
 - memo
