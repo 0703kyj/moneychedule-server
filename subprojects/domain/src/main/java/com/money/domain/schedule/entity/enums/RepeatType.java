@@ -19,4 +19,8 @@ public enum RepeatType {
         }
         throw new NotFoundRepeatTypeException();
     }
+
+    public String getValue(){
+        return this.value;
+    }
 }

@@ -7,4 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AttendeeRepository extends JpaRepository<Attendee,Long> {
     List<Attendee> findBySchedule(Schedule schedule);
+
+    Boolean existsByMemberIdAndScheduleId(Long memberId, Long scheduleId);
 }

@@ -4,7 +4,7 @@ import com.money.dto.request.auth.EmailRequest;
 import com.money.dto.request.auth.SocialLoginRequest;
 import com.money.dto.request.auth.SocialRegisterRequest;
 import com.money.dto.response.auth.ErrorResponse;
-import com.money.dto.response.member.MemberResponse;
+import com.money.dto.response.member.MemberIdResponse;
 import com.money.dto.response.auth.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -44,13 +44,13 @@ public interface AuthApi {
 
     @Operation(summary = "이메일 회원가입", description = "이메일 회원가입을 진행합니다.")
     @PostMapping(value = "/register/email")
-    ResponseEntity<MemberResponse> registerToEmail(
+    ResponseEntity<MemberIdResponse> registerToEmail(
             @RequestBody @Valid EmailRequest request
     );
 
     @Operation(summary = "소셜 회원가입", description = "소셜 회원가입을 진행합니다.")
     @PostMapping(value = "/register/{provider}")
-    ResponseEntity<MemberResponse> register(
+    ResponseEntity<MemberIdResponse> register(
             @PathVariable("provider") @Parameter(example = "GOOGLE", description = "oAuth 제공자 이름")  String provider,
             @RequestBody @Valid SocialRegisterRequest request
     );
