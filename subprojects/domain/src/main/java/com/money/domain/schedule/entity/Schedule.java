@@ -1,6 +1,5 @@
 package com.money.domain.schedule.entity;
 
-import com.money.domain.member.entity.Member;
 import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.enums.RepeatType;
 import jakarta.persistence.AttributeOverride;

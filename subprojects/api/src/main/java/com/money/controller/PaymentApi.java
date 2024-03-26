@@ -50,24 +50,24 @@ public interface PaymentApi {
             Pageable pageable
     );
 
-    @GetMapping("/month/deposit")
+    @GetMapping(value = "/month/deposit", params = {"year","month"})
     ResponseEntity<TotalMonthPaymentResponse> getTotalMonthDeposit(
             @MemberId Long memberId,
-            @RequestParam
+            @RequestParam("year")
             @Parameter(description = "조회할 년", example = "2024")
             int year,
-            @RequestParam
+            @RequestParam("day")
             @Parameter(description = "조회할 월", example = "3")
             int month
     );
 
-    @GetMapping("/month/withdraw")
+    @GetMapping(value = "/month/withdraw", params = {"year","month"})
     ResponseEntity<TotalMonthPaymentResponse> getTotalMonthWithdraw(
             @MemberId Long memberId,
-            @RequestParam
+            @RequestParam("year")
             @Parameter(description = "조회할 년", example = "2024")
             int year,
-            @RequestParam
+            @RequestParam("month")
             @Parameter(description = "조회할 월", example = "3")
             int month
     );
