@@ -23,8 +23,7 @@ public class DevController implements DevApi {
     private final PaymentService paymentService;
 
     @Override
-    public ResponseEntity<TokenResponse> getToken() {
-        String email = "0703kyj@naver.com";
+    public ResponseEntity<TokenResponse> getToken(String email) {
         Boolean isRegistered = memberRepository.existsByEmailAndPlatform(email, Platform.EMAIL);
 
         if(Boolean.FALSE.equals(isRegistered)) {
