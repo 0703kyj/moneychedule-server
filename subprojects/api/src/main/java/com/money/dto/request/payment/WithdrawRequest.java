@@ -10,7 +10,7 @@ public record WithdrawRequest(
         @Schema(description = "금액", example = "1000")
         Long amount,
         @Schema(description = "지출 종류", example = "식비")
-        String withdrawType
+        String type
 ) {
 
 }

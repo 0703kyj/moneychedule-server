@@ -11,8 +11,7 @@ import com.money.dto.response.payment.PaymentResponse;
 import com.money.dto.response.payment.TodayDepositRankResponse;
 import com.money.dto.response.payment.TodayWithdrawRankResponse;
 import com.money.dto.response.payment.TotalMonthPaymentResponse;
-import com.money.exception.InvalidDateException;
-import java.time.DateTimeException;
+import com.money.util.LocalDateConverter;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -29,7 +28,7 @@ public class PaymentController implements PaymentApi {
     @Override
     public ResponseEntity<PaymentResponse> createDeposit(Long memberId, DepositRequest request) {
         Payment deposit = paymentService.saveDeposit(memberId, request.memo(), request.amount(),
-                request.depositType());
+                request.type());
 
         PaymentResponse response = PaymentResponse.from(deposit);
         return ResponseEntity.ok(response);
@@ -38,7 +37,7 @@ public class PaymentController implements PaymentApi {
     @Override
     public ResponseEntity<PaymentResponse> createWithdraw(Long memberId, WithdrawRequest request) {
         Payment withdraw = paymentService.saveWithdraw(memberId, request.memo(), request.amount(),
-                request.withdrawType());
+                request.type());
 
         PaymentResponse response = PaymentResponse.from(withdraw);
         return ResponseEntity.ok(response);
@@ -68,7 +67,7 @@ public class PaymentController implements PaymentApi {
     public ResponseEntity<TotalMonthPaymentResponse> getTotalMonthDeposit(Long memberId,
             int year, int month) {
 
-        LocalDate date = getLocalDate(year, month);
+        LocalDate date = LocalDateConverter.getLocalDate(year, month);
         Long totalDepositPerMonth = paymentService.getTotalDepositPerMonth(memberId, date);
 
         TotalMonthPaymentResponse response = TotalMonthPaymentResponse.of(
@@ -81,7 +80,7 @@ public class PaymentController implements PaymentApi {
     public ResponseEntity<TotalMonthPaymentResponse> getTotalMonthWithdraw(Long memberId, int year,
             int month) {
 
-        LocalDate date = getLocalDate(year, month);
+        LocalDate date = LocalDateConverter.getLocalDate(year, month);
         Long totalWithdrawPerMonth = paymentService.getTotalWithdrawPerMonth(memberId, date);
 
         TotalMonthPaymentResponse response = TotalMonthPaymentResponse.of(
@@ -90,11 +89,4 @@ public class PaymentController implements PaymentApi {
         return ResponseEntity.ok(response);
     }
 
-    private LocalDate getLocalDate(int year, int month) {
-        try {
-            return LocalDate.of(year, month, 1);
-        } catch (DateTimeException e) {
-            throw new InvalidDateException();
-        }
-    }
 }

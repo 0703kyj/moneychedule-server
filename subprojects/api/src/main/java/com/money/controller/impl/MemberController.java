@@ -5,7 +5,7 @@ import com.money.domain.member.entity.Member;
 import com.money.domain.member.service.MemberService;
 import com.money.dto.request.member.SetTeamRequest;
 import com.money.dto.response.member.InviteCodeResponse;
-import com.money.dto.response.member.MemberListResponse;
+import com.money.dto.response.member.MemberIdListResponse;
 import com.money.dto.response.member.SetTeamResponse;
 import com.money.service.member.MemberInviteService;
 import java.util.List;
@@ -21,11 +21,11 @@ public class MemberController implements MemberApi {
     private final MemberService memberService;
 
     @Override
-    public ResponseEntity<MemberListResponse> getMembers(Long memberId) {
+    public ResponseEntity<MemberIdListResponse> getMembers(Long memberId) {
 
         List<Member> members = memberService.getMembers(memberId);
 
-        MemberListResponse response = MemberListResponse.from(members);
+        MemberIdListResponse response = MemberIdListResponse.from(members);
         return ResponseEntity.ok(response);
     }
 
