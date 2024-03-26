@@ -40,4 +40,8 @@ public class Attendee {
                 .schedule(schedule)
                 .build();
     }
+
+    public static Long getMemberId(Attendee attendee) {
+        return attendee.getMember().getId();
+    }
 }

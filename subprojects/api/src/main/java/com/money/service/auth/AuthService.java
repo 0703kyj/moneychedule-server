@@ -7,7 +7,7 @@ import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
 import com.money.domain.member.entity.enums.Platform;
 import com.money.system.config.jwt.TokenProvider;
-import com.money.dto.response.member.MemberResponse;
+import com.money.dto.response.member.MemberIdResponse;
 import com.money.dto.response.auth.SocialMemberResponse;
 import com.money.dto.response.auth.TokenResponse;
 import com.money.system.exception.PasswordMismatchException;
@@ -52,7 +52,7 @@ public class AuthService {
     }
 
     @Transactional
-    public MemberResponse registerToEmail(String email, String password) {
+    public MemberIdResponse registerToEmail(String email, String password) {
         Platform emailPlatform = Platform.EMAIL;
 
         if (Boolean.TRUE.equals(memberRepository.existsByEmailAndPlatform(email, emailPlatform))) {
@@ -63,11 +63,11 @@ public class AuthService {
         Member registeredMember = Member.of(email, encodedPassword, emailPlatform);
         memberService.saveMember(registeredMember);
 
-        return MemberResponse.from(registeredMember);
+        return MemberIdResponse.from(registeredMember);
     }
 
     @Transactional
-    public MemberResponse registerToOauth(
+    public MemberIdResponse registerToOauth(
             String provider, String platformId,
             String name, String phoneNumber, LocalDate birth
     ) {
@@ -76,7 +76,7 @@ public class AuthService {
                 .orElseThrow(NotFoundMemberException::new);
 
         registeredMember.registerSocialMember(name, phoneNumber, birth);
-        return MemberResponse.from(registeredMember);
+        return MemberIdResponse.from(registeredMember);
     }
 
     private void validatePassword(final Member findMember, final String password) {
