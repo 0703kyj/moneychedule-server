@@ -89,7 +89,6 @@ public class Member extends DeletableBaseEntity {
 
     public void updateTeam(Team newTeam) {
         this.team = newTeam;
-        log.info("this.team = {}, newTeam = {}",this.team.getId(),newTeam.getId());
         this.team.addMemberCount();
     }
 }

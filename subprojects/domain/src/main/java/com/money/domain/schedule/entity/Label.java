@@ -32,5 +32,13 @@ public class Label {
     private Team team;
 
     private String name;
-    private String value;
+    private String color;
+
+    public static Label of(Team team, String name, String color) {
+        return Label.builder()
+               .team(team)
+               .name(name)
+               .color(color)
+               .build();
+    }
 }
