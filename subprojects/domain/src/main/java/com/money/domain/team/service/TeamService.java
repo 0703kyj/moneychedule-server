@@ -1,6 +1,6 @@
 package com.money.domain.team.service;
 
-import com.money.domain.member.entity.Member;
+import com.money.domain.schedule.service.LabelService;
 import com.money.domain.team.entity.Team;
 import com.money.domain.team.exception.NotFoundTeamException;
 import com.money.domain.team.exception.OverflowMemberCountException;
@@ -17,10 +17,15 @@ public class TeamService {
     private static final int MAX_ENTER_TEAM_COUNT = 2;
 
     private final TeamRepository teamRepository;
+    private final LabelService labelService;
 
     @Transactional
     public Team createNewTeam() {
-        return teamRepository.save(new Team());
+        Team newTeam = new Team();
+        teamRepository.save(newTeam);
+
+        labelService.initLabels(newTeam);
+        return newTeam;
     }
 
     public Team findById(Long teamId) {
