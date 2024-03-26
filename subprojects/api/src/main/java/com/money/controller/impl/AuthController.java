@@ -5,7 +5,7 @@ import com.money.controller.AuthApi;
 import com.money.dto.request.auth.EmailRequest;
 import com.money.dto.request.auth.SocialLoginRequest;
 import com.money.dto.request.auth.SocialRegisterRequest;
-import com.money.dto.response.auth.MemberRegisterResponse;
+import com.money.dto.response.member.MemberResponse;
 import com.money.dto.response.auth.TokenResponse;
 import com.money.service.auth.AuthService;
 import lombok.RequiredArgsConstructor;
@@ -47,16 +47,16 @@ public class AuthController implements AuthApi {
     }
 
     @Override
-    public ResponseEntity<MemberRegisterResponse> registerToEmail(EmailRequest request) {
-        MemberRegisterResponse response = authService.registerToEmail(request.email(),
+    public ResponseEntity<MemberResponse> registerToEmail(EmailRequest request) {
+        MemberResponse response = authService.registerToEmail(request.email(),
                 request.password());
 
         return ResponseEntity.ok(response);
     }
 
     @Override
-    public ResponseEntity<MemberRegisterResponse> register(String provider, SocialRegisterRequest request) {
-        MemberRegisterResponse response = authService.registerToOauth(
+    public ResponseEntity<MemberResponse> register(String provider, SocialRegisterRequest request) {
+        MemberResponse response = authService.registerToOauth(
                 provider, request.platformId(), request.name(), request.phoneNumber(), request.birth());
 
         return ResponseEntity.ok(response);

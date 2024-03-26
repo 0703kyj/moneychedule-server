@@ -17,8 +17,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Embeddable
 public class EventDate {
-
     @Column(name = "date")
     private LocalDate date;
+    @Column(name = "time")
     private LocalTime time;
+
+    public static EventDate of(LocalDate date, LocalTime time) {
+        return new EventDate(date, time);
+    }
 }

@@ -1,5 +1,7 @@
 package com.money.domain.schedule.entity;
 
+import com.money.domain.member.entity.Member;
+import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.enums.RepeatType;
 import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
@@ -48,4 +50,14 @@ public class Schedule {
 
     @Enumerated(EnumType.STRING)
     private RepeatType repeatType;
+
+    public static Schedule of(Label label, ScheduleDto scheduleDto) {
+        return Schedule.builder()
+                .label(label)
+                .memo(scheduleDto.memo())
+                .startDate(EventDate.of(scheduleDto.startDate(),scheduleDto.startTime()))
+                .endDate(EventDate.of(scheduleDto.endDate(),scheduleDto.endTime()))
+                .repeatType(RepeatType.fromString(scheduleDto.repeatType()))
+                .build();
+    }
 }
