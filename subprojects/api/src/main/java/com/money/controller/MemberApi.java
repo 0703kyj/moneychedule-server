@@ -3,7 +3,7 @@ package com.money.controller;
 import com.money.config.auth.MemberId;
 import com.money.dto.request.member.SetTeamRequest;
 import com.money.dto.response.member.InviteCodeResponse;
-import com.money.dto.response.member.MemberListResponse;
+import com.money.dto.response.member.MemberIdListResponse;
 import com.money.dto.response.member.SetTeamResponse;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 public interface MemberApi {
 
     @GetMapping
-    ResponseEntity<MemberListResponse> getMembers(
+    ResponseEntity<MemberIdListResponse> getMembers(
             @MemberId Long memberId
     );
 

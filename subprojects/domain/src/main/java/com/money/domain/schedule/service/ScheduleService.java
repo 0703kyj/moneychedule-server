@@ -7,6 +7,8 @@ import com.money.domain.schedule.entity.Label;
 import com.money.domain.schedule.entity.Schedule;
 import com.money.domain.schedule.exception.NotFoundScheduleException;
 import com.money.domain.schedule.repository.ScheduleRepository;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,7 +30,7 @@ public class ScheduleService {
         Member findMember = memberService.findById(memberId);
 
         Label findLabel = labelService.findById(scheduleDto.labelId());
-        Schedule schedule = Schedule.of(findLabel, scheduleDto);
+        Schedule schedule = scheduleRepository.save(Schedule.of(findLabel, scheduleDto));
 
         attendeeService.addAttendee(findMember, schedule);
         for (Long attendeeId : scheduleDto.members()) {
@@ -37,7 +39,7 @@ public class ScheduleService {
                 attendeeService.addAttendee(attendee, schedule);
             }
         }
-        return scheduleRepository.save(schedule);
+        return schedule;
     }
 
     public Schedule findById(Long memberId, Long scheduleId) {
@@ -45,5 +47,12 @@ public class ScheduleService {
 
         return scheduleRepository.findById(scheduleId)
                 .orElseThrow(NotFoundScheduleException::new);
+    }
+
+    public List<Schedule> getSchedulePerMonth(Long memberId, LocalDate date) {
+        Member findMember = memberService.findById(memberId);
+
+        return scheduleRepository.getSchedulePerMonth(date,
+                findMember.getId());
     }
 }

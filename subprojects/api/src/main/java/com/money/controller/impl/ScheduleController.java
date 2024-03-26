@@ -2,13 +2,16 @@ package com.money.controller.impl;
 
 import com.money.controller.ScheduleApi;
 import com.money.domain.schedule.dto.ScheduleDto;
-import com.money.domain.schedule.entity.Attendee;
 import com.money.domain.schedule.entity.Schedule;
-import com.money.domain.schedule.repository.AttendeeRepository;
+import com.money.domain.schedule.service.AttendeeService;
 import com.money.domain.schedule.service.ScheduleService;
 import com.money.dto.request.schedule.ScheduleRequest;
 import com.money.dto.response.schedule.ScheduleIdResponse;
+import com.money.dto.response.schedule.ScheduleListResponse;
 import com.money.dto.response.schedule.ScheduleResponse;
+import com.money.util.LocalDateConverter;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +22,7 @@ import org.springframework.stereotype.Controller;
 public class ScheduleController implements ScheduleApi {
 
     private final ScheduleService scheduleService;
-    private final AttendeeRepository attendeeRepository;
+    private final AttendeeService attendeeService;
 
     @Override
     public ResponseEntity<ScheduleIdResponse> saveSchedule(Long memberId, ScheduleRequest request) {
@@ -41,15 +44,31 @@ public class ScheduleController implements ScheduleApi {
     }
 
     @Override
+    public ResponseEntity<ScheduleListResponse> getSchedulesPerMonth(Long memberId, int year, int month) {
+
+        LocalDate date = LocalDateConverter.getLocalDate(year, month);
+        List<Schedule> schedules = scheduleService.getSchedulePerMonth(memberId, date);
+        List<ScheduleResponse> scheduleResponses = new ArrayList<>();
+
+
+        for (Schedule schedule : schedules) {
+            List<Long> members = attendeeService.findAllAttendeesInSchedule(schedule);
+            scheduleResponses.add(ScheduleResponse.of(schedule, members));
+        }
+
+        ScheduleListResponse response = ScheduleListResponse.from(scheduleResponses);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
     public ResponseEntity<ScheduleResponse> getSchedule(Long memberId, Long scheduleId) {
 
         Schedule schedule = scheduleService.findById(memberId, scheduleId);
 
-        List<Long> members = attendeeRepository.findBySchedule(schedule).stream()
-                .map(Attendee::getMemberId)
-                .toList();
+        List<Long> members = attendeeService.findAllAttendeesInSchedule(schedule);
 
         ScheduleResponse response = ScheduleResponse.of(schedule, members);
         return ResponseEntity.ok(response);
     }
+
 }

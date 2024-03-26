@@ -10,7 +10,7 @@ public record DepositRequest(
         @Schema(description = "금액", example = "1000")
         Long amount,
         @Schema(description = "입금 종류", example = "용돈")
-        String depositType
+        String type
 ) {
 
 }
