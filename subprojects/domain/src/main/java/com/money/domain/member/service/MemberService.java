@@ -6,6 +6,7 @@ import com.money.domain.member.exception.NotFoundMemberException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.team.entity.Team;
 import com.money.domain.team.service.TeamService;
+import java.util.List;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -27,11 +28,17 @@ public class MemberService {
         if (findMember.isPresent()) {
             throw new MemberAlreadyExistException();
         }
+
+        Team newTeam = teamService.createNewTeam();
+        member.updateTeam(newTeam);
+
         return memberRepository.save(member);
     }
 
     @Transactional
     public void enterTeam(Member member, Team newTeam) {
+        teamService.validateEnterTeam(newTeam);
+
         Team currentTeam = member.getTeam();
         if (currentTeam != null) {
             currentTeam.subMemberCount();
@@ -60,5 +67,13 @@ public class MemberService {
             return Optional.of(member.getTeam().getId());
         }
         return Optional.empty();
+    }
+
+    public List<Member> getMembers(Long memberId) {
+        Member findMember = findById(memberId);
+
+        Team team = findMember.getTeam();
+
+        return memberRepository.findByTeam(team);
     }
 }

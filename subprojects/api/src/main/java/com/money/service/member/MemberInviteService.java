@@ -1,8 +1,6 @@
 package com.money.service.member;
 
 import com.money.domain.member.entity.Member;
-import com.money.domain.member.exception.NotFoundMemberException;
-import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
 import com.money.domain.team.entity.Team;
 import com.money.domain.team.service.TeamInviteCodeProvider;
@@ -44,7 +42,6 @@ public class MemberInviteService {
         Member findMember = memberService.findById(memberId);
 
         Team findTeam = teamService.findByInviteCode(inviteCode);
-        teamService.validateEnterTeam(findTeam);
 
         memberService.enterTeam(findMember, findTeam);
         return SetTeamResponse.of(findTeam.getId(), findTeam.getMemberCount());
