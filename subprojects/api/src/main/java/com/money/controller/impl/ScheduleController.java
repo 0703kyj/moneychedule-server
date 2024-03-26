@@ -38,7 +38,18 @@ public class ScheduleController implements ScheduleApi {
                 .build();
 
         Schedule schedule = scheduleService.saveSchedule(memberId, scheduleDto);
+
         ScheduleIdResponse response = ScheduleIdResponse.from(schedule.getId());
+
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
+    public ResponseEntity<ScheduleListResponse> getSchedulesPerDay(Long memberId, LocalDate day) {
+
+        List<Schedule> schedules = scheduleService.getSchedulePerDay(memberId, day);
+
+        ScheduleListResponse response = getScheduleListResponse(schedules);
 
         return ResponseEntity.ok(response);
     }
@@ -48,15 +59,9 @@ public class ScheduleController implements ScheduleApi {
 
         LocalDate date = LocalDateConverter.getLocalDate(year, month);
         List<Schedule> schedules = scheduleService.getSchedulePerMonth(memberId, date);
-        List<ScheduleResponse> scheduleResponses = new ArrayList<>();
 
+        ScheduleListResponse response = getScheduleListResponse(schedules);
 
-        for (Schedule schedule : schedules) {
-            List<Long> members = attendeeService.findAllAttendeesInSchedule(schedule);
-            scheduleResponses.add(ScheduleResponse.of(schedule, members));
-        }
-
-        ScheduleListResponse response = ScheduleListResponse.from(scheduleResponses);
         return ResponseEntity.ok(response);
     }
 
@@ -64,11 +69,21 @@ public class ScheduleController implements ScheduleApi {
     public ResponseEntity<ScheduleResponse> getSchedule(Long memberId, Long scheduleId) {
 
         Schedule schedule = scheduleService.findById(memberId, scheduleId);
-
         List<Long> members = attendeeService.findAllAttendeesInSchedule(schedule);
 
         ScheduleResponse response = ScheduleResponse.of(schedule, members);
+
         return ResponseEntity.ok(response);
     }
 
+    private ScheduleListResponse getScheduleListResponse(List<Schedule> schedules) {
+        List<ScheduleResponse> scheduleResponses = new ArrayList<>();
+
+        for (Schedule schedule : schedules) {
+            List<Long> members = attendeeService.findAllAttendeesInSchedule(schedule);
+            scheduleResponses.add(ScheduleResponse.of(schedule, members));
+        }
+
+        return ScheduleListResponse.from(scheduleResponses);
+    }
 }

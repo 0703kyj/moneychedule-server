@@ -29,6 +29,18 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<Schedule> getSchedulesPerDay(LocalDate day, Long memberId) {
+
+        return queryFactory.select(schedule)
+                .from(attendee)
+                .join(attendee.schedule, schedule)
+                .where(attendee.member.id.eq(memberId),
+                        schedule.startDate.date.loe(day)
+                                .and(schedule.endDate.date.goe(day)))
+                .fetch();
+    }
+
     private BooleanExpression betweenMonthOfStartDate(LocalDate startOfMonth, LocalDate endOfMonth) {
         return schedule.startDate.date.between(startOfMonth, endOfMonth);
     }

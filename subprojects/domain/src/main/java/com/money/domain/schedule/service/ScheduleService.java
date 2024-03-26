@@ -49,10 +49,15 @@ public class ScheduleService {
                 .orElseThrow(NotFoundScheduleException::new);
     }
 
-    public List<Schedule> getSchedulePerMonth(Long memberId, LocalDate date) {
+    public List<Schedule> getSchedulePerDay(Long memberId, LocalDate day) {
         Member findMember = memberService.findById(memberId);
 
-        return scheduleRepository.getSchedulePerMonth(date,
-                findMember.getId());
+        return scheduleRepository.getSchedulesPerDay(day, findMember.getId());
+    }
+
+    public List<Schedule> getSchedulePerMonth(Long memberId, LocalDate month) {
+        Member findMember = memberService.findById(memberId);
+
+        return scheduleRepository.getSchedulePerMonth(month, findMember.getId());
     }
 }

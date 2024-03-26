@@ -12,13 +12,13 @@ public record ScheduleRequest(
         Long labelId,
         @Schema(description = "세부 내용", example = "메모")
         String memo,
-        @DateTimeFormat(iso = ISO.DATE_TIME)
+        @DateTimeFormat(iso = ISO.DATE)
         @Schema(description = "시작일", example = "yyyy-MM-dd")
         LocalDate startDate,
         @DateTimeFormat(iso = ISO.TIME)
         @Schema(description = "시작시간", example = "07:30:00")
         LocalTime startTime,
-        @DateTimeFormat(iso = ISO.DATE_TIME)
+        @DateTimeFormat(iso = ISO.DATE)
         @Schema(description = "종료일", example = "yyyy-MM-dd")
         LocalDate endDate,
         @DateTimeFormat(iso = ISO.TIME)

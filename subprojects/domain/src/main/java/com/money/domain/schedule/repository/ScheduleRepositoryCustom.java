@@ -7,4 +7,5 @@ import java.util.List;
 public interface ScheduleRepositoryCustom {
 
     List<Schedule> getSchedulePerMonth(LocalDate month, Long memberId);
+    List<Schedule> getSchedulesPerDay(LocalDate day, Long memberId);
 }

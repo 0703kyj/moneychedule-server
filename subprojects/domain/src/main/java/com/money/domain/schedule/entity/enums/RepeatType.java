@@ -1,11 +1,13 @@
 package com.money.domain.schedule.entity.enums;
 
 import com.money.domain.schedule.exception.NotFoundRepeatTypeException;
+import lombok.Getter;
 
+@Getter
 public enum RepeatType {
     NONE("없음"), DAY("매일"), WEEK("매주"), MONTH("매달"), YEAR("매년");
 
-    private String value;
+    private final String value;
 
     RepeatType(String value) {
         this.value = value;
@@ -18,9 +20,5 @@ public enum RepeatType {
             }
         }
         throw new NotFoundRepeatTypeException();
-    }
-
-    public String getValue(){
-        return this.value;
     }
 }
