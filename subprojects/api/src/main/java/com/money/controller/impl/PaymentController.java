@@ -4,13 +4,15 @@ import com.money.controller.PaymentApi;
 import com.money.domain.payment.dto.TodayDepositDto;
 import com.money.domain.payment.dto.TodayWithdrawDto;
 import com.money.domain.payment.entity.Payment;
+import com.money.domain.payment.entity.enums.PaymentType;
 import com.money.domain.payment.service.PaymentService;
-import com.money.dto.request.payment.DepositRequest;
-import com.money.dto.request.payment.WithdrawRequest;
+import com.money.dto.request.payment.PaymentRequest;
 import com.money.dto.response.payment.PaymentResponse;
 import com.money.dto.response.payment.TodayDepositRankResponse;
 import com.money.dto.response.payment.TodayWithdrawRankResponse;
 import com.money.dto.response.payment.TotalMonthPaymentResponse;
+import com.money.service.payment.PaymentAmountService;
+import com.money.service.payment.PaymentPagingService;
 import com.money.util.LocalDateConverter;
 import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
@@ -24,29 +26,40 @@ import org.springframework.stereotype.Controller;
 public class PaymentController implements PaymentApi {
 
     private final PaymentService paymentService;
+    private final PaymentAmountService paymentAmountService;
+    private final PaymentPagingService paymentPagingService;
 
     @Override
-    public ResponseEntity<PaymentResponse> createDeposit(Long memberId, DepositRequest request) {
-        Payment deposit = paymentService.saveDeposit(memberId, request.memo(), request.amount(),
-                request.type());
+    public ResponseEntity<PaymentResponse> createPayment(Long memberId, String type,
+            PaymentRequest request) {
 
+        PaymentType paymentType = PaymentType.fromString(type);
+
+        Payment deposit = paymentService.savePayment(memberId, request.memo(), request.amount(),
+                paymentType, request.type());
         PaymentResponse response = PaymentResponse.from(deposit);
+
         return ResponseEntity.ok(response);
     }
 
     @Override
-    public ResponseEntity<PaymentResponse> createWithdraw(Long memberId, WithdrawRequest request) {
-        Payment withdraw = paymentService.saveWithdraw(memberId, request.memo(), request.amount(),
-                request.type());
+    public ResponseEntity<TotalMonthPaymentResponse> getTotalMonthPayment(Long memberId,
+            String type, int year, int month) {
+        PaymentType paymentType = PaymentType.fromString(type);
 
-        PaymentResponse response = PaymentResponse.from(withdraw);
+        LocalDate date = LocalDateConverter.getLocalDate(year, month);
+        Long totalWithdrawPerMonth = paymentAmountService.getTotalPaymentPerMonth(memberId, date, paymentType);
+
+        TotalMonthPaymentResponse response = TotalMonthPaymentResponse.of(
+                date.getMonth().getValue(), totalWithdrawPerMonth);
+
         return ResponseEntity.ok(response);
     }
 
     @Override
     public ResponseEntity<TodayDepositRankResponse> getTodayDepositRank(Long memberId,
             Pageable pageable) {
-        Page<TodayDepositDto> deposits = paymentService.searchDescPageTodayDeposit(memberId,
+        Page<TodayDepositDto> deposits = paymentPagingService.searchDescPageTodayDeposit(memberId,
                 pageable);
         TodayDepositRankResponse response = TodayDepositRankResponse.from(deposits);
 
@@ -56,37 +69,10 @@ public class PaymentController implements PaymentApi {
     @Override
     public ResponseEntity<TodayWithdrawRankResponse> getTodayWithdrawRank(Long memberId,
             Pageable pageable) {
-        Page<TodayWithdrawDto> withdraws = paymentService.searchDescPageTodayWithdraw(memberId,
+        Page<TodayWithdrawDto> withdraws = paymentPagingService.searchDescPageTodayWithdraw(memberId,
                 pageable);
         TodayWithdrawRankResponse response = TodayWithdrawRankResponse.from(withdraws);
 
         return ResponseEntity.ok(response);
     }
-
-    @Override
-    public ResponseEntity<TotalMonthPaymentResponse> getTotalMonthDeposit(Long memberId,
-            int year, int month) {
-
-        LocalDate date = LocalDateConverter.getLocalDate(year, month);
-        Long totalDepositPerMonth = paymentService.getTotalDepositPerMonth(memberId, date);
-
-        TotalMonthPaymentResponse response = TotalMonthPaymentResponse.of(
-                date.getMonth().getValue(), totalDepositPerMonth);
-
-        return ResponseEntity.ok(response);
-    }
-
-    @Override
-    public ResponseEntity<TotalMonthPaymentResponse> getTotalMonthWithdraw(Long memberId, int year,
-            int month) {
-
-        LocalDate date = LocalDateConverter.getLocalDate(year, month);
-        Long totalWithdrawPerMonth = paymentService.getTotalWithdrawPerMonth(memberId, date);
-
-        TotalMonthPaymentResponse response = TotalMonthPaymentResponse.of(
-                date.getMonth().getValue(), totalWithdrawPerMonth);
-
-        return ResponseEntity.ok(response);
-    }
-
 }

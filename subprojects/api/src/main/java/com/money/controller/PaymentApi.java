@@ -1,8 +1,7 @@
 package com.money.controller;
 
 import com.money.config.auth.MemberId;
-import com.money.dto.request.payment.DepositRequest;
-import com.money.dto.request.payment.WithdrawRequest;
+import com.money.dto.request.payment.PaymentRequest;
 import com.money.dto.response.payment.PaymentResponse;
 import com.money.dto.response.payment.TodayDepositRankResponse;
 import com.money.dto.response.payment.TodayWithdrawRankResponse;
@@ -14,6 +13,7 @@ import jakarta.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,16 +26,25 @@ import org.springframework.web.bind.annotation.RestController;
 @SecurityRequirement(name = "JWT")
 public interface PaymentApi {
 
-    @PostMapping("/deposit")
-    ResponseEntity<PaymentResponse> createDeposit(
+    @PostMapping(value = "/{type}")
+    ResponseEntity<PaymentResponse> createPayment(
             @MemberId Long memberId,
-            @RequestBody @Valid DepositRequest request
+            @PathVariable("type") String type,
+            @RequestBody @Valid PaymentRequest request
     );
 
-    @PostMapping("/withdraw")
-    ResponseEntity<PaymentResponse> createWithdraw(
+    @GetMapping(value = "/month/{type}", params = {"year","month"})
+    ResponseEntity<TotalMonthPaymentResponse> getTotalMonthPayment(
             @MemberId Long memberId,
-            @RequestBody @Valid WithdrawRequest request
+            @PathVariable("type") String type,
+
+            @RequestParam("year")
+            @Parameter(description = "조회할 년", example = "2024")
+            int year,
+
+            @RequestParam("month")
+            @Parameter(description = "조회할 월", example = "3")
+            int month
     );
 
     @GetMapping(value = "/today/deposit", params = {"page","size"})
@@ -48,27 +57,5 @@ public interface PaymentApi {
     ResponseEntity<TodayWithdrawRankResponse> getTodayWithdrawRank(
             @MemberId Long memberId,
             Pageable pageable
-    );
-
-    @GetMapping(value = "/month/deposit", params = {"year","month"})
-    ResponseEntity<TotalMonthPaymentResponse> getTotalMonthDeposit(
-            @MemberId Long memberId,
-            @RequestParam("year")
-            @Parameter(description = "조회할 년", example = "2024")
-            int year,
-            @RequestParam("day")
-            @Parameter(description = "조회할 월", example = "3")
-            int month
-    );
-
-    @GetMapping(value = "/month/withdraw", params = {"year","month"})
-    ResponseEntity<TotalMonthPaymentResponse> getTotalMonthWithdraw(
-            @MemberId Long memberId,
-            @RequestParam("year")
-            @Parameter(description = "조회할 년", example = "2024")
-            int year,
-            @RequestParam("month")
-            @Parameter(description = "조회할 월", example = "3")
-            int month
     );
 }

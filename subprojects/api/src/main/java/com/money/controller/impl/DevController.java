@@ -5,6 +5,7 @@ import com.money.domain.member.entity.Member;
 import com.money.domain.member.entity.enums.Platform;
 import com.money.domain.member.exception.NotFoundMemberException;
 import com.money.domain.member.repository.MemberRepository;
+import com.money.domain.payment.entity.enums.PaymentType;
 import com.money.domain.payment.service.PaymentService;
 import com.money.dto.response.auth.TokenResponse;
 import com.money.service.auth.AuthService;
@@ -18,6 +19,7 @@ import org.springframework.stereotype.Controller;
 @Controller
 @RequiredArgsConstructor
 public class DevController implements DevApi {
+
     private final MemberRepository memberRepository;
     private final AuthService authService;
     private final PaymentService paymentService;
@@ -26,7 +28,7 @@ public class DevController implements DevApi {
     public ResponseEntity<TokenResponse> getToken(String email) {
         Boolean isRegistered = memberRepository.existsByEmailAndPlatform(email, Platform.EMAIL);
 
-        if(Boolean.FALSE.equals(isRegistered)) {
+        if (Boolean.FALSE.equals(isRegistered)) {
             authService.registerToEmail(email, "123");
         }
         TokenResponse response = authService.login(email, "123");
@@ -45,8 +47,8 @@ public class DevController implements DevApi {
         Member member = memberRepository.findByEmailAndPlatform(email, Platform.EMAIL)
                 .orElseThrow(NotFoundMemberException::new);
 
-        for (int i = 0; i < 100; i++) {
-            paymentService.saveDeposit(member.getId(),"1", (long) i,"월급");
+        for (int i = 1; i < 100; i++) {
+            paymentService.savePayment(member.getId(), "1", (long) i, PaymentType.DEPOSIT, "월급");
         }
     }
 
@@ -55,8 +57,8 @@ public class DevController implements DevApi {
         Member member = memberRepository.findByEmailAndPlatform(email, Platform.EMAIL)
                 .orElseThrow(NotFoundMemberException::new);
 
-        for (int i = 0; i < 100; i++) {
-            paymentService.saveWithdraw(member.getId(),"1", (long) i,"식비");
+        for (int i = 1; i < 100; i++) {
+            paymentService.savePayment(member.getId(), "1", (long) i, PaymentType.WITHDRAW, "식비");
         }
     }
 }

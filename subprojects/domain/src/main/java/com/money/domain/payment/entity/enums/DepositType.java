@@ -9,7 +9,7 @@ public enum DepositType {
     BALANCE_ADJUSTMENT("잔액 조정"),
     ASSET_WITHDRAWAL("자산 인출");
 
-    private String value;
+    private final String value;
     DepositType(String value) {
         this.value = value;
     }

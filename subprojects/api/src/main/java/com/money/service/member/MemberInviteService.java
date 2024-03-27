@@ -38,7 +38,7 @@ public class MemberInviteService {
     }
 
     @Transactional
-    public SetTeamResponse setTeam(Long memberId, String inviteCode) {
+    public SetTeamResponse enterTeam(Long memberId, String inviteCode) {
         Member findMember = memberService.findById(memberId);
 
         Team findTeam = teamService.findByInviteCode(inviteCode);
