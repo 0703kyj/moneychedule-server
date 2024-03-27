@@ -37,7 +37,7 @@ public class MemberController implements MemberApi {
 
     @Override
     public ResponseEntity<SetTeamResponse> setTeam(Long memberId, SetTeamRequest request) {
-        SetTeamResponse response = memberInviteService.setTeam(memberId, request.inviteCode());
+        SetTeamResponse response = memberInviteService.enterTeam(memberId, request.inviteCode());
         return ResponseEntity.ok(response);
     }
 }

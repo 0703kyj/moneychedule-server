@@ -24,7 +24,7 @@ public enum WithdrawType {
     CARD_FEE("카드대금"),
     ETC("기타");
 
-    private String value;
+    private final String value;
     WithdrawType(String value) {
         this.value = value;
     }

@@ -43,10 +43,10 @@ class MemberInviteServiceTest {
         memberService.saveMember(member3);
 
         String inviteCode = memberInviteService.getInviteCode(member1.getId()).inviteCode();
-        memberInviteService.setTeam(member2.getId(), inviteCode);
+        memberInviteService.enterTeam(member2.getId(), inviteCode);
 
         Long member3Id = member3.getId();
-        assertThatThrownBy(() -> memberInviteService.setTeam(member3Id, inviteCode))
+        assertThatThrownBy(() -> memberInviteService.enterTeam(member3Id, inviteCode))
                 .isInstanceOf(OverflowMemberCountException.class);
     }
 
@@ -61,10 +61,10 @@ class MemberInviteServiceTest {
         memberService.saveMember(member3);
 
         String team1 = memberInviteService.getInviteCode(member1.getId()).inviteCode();
-        memberInviteService.setTeam(member2.getId(), team1);
+        memberInviteService.enterTeam(member2.getId(), team1);
         String team2 = memberInviteService.getInviteCode(member3.getId()).inviteCode();
-        memberInviteService.setTeam(member2.getId(), team2);
-        memberInviteService.setTeam(member3.getId(), team1);
+        memberInviteService.enterTeam(member2.getId(), team2);
+        memberInviteService.enterTeam(member3.getId(), team1);
 
         assertThat(member1.getTeam().getMemberCount()).isEqualTo(2);
         assertThat(member2.getTeam().getMemberCount()).isEqualTo(1);
