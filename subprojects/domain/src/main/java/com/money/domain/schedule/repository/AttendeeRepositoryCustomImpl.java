@@ -33,13 +33,12 @@ public class AttendeeRepositoryCustomImpl implements AttendeeRepositoryCustom{
     @Override
     public Boolean existsByMemberIdAndScheduleId(Long memberId, Long scheduleId) {
 
-        List<Long> result = queryFactory.select(attendee.id)
+        Long result = queryFactory.select(attendee.id)
                 .from(attendee)
                 .where(attendee.member.id.eq(memberId),
                         attendee.schedule.id.eq(scheduleId))
-                .distinct()
-                .fetch();
+                .fetchFirst();
 
-        return Boolean.FALSE.equals(result.isEmpty());
+        return result != null;
     }
 }
