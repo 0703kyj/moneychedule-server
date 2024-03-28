@@ -2,7 +2,6 @@ package com.money.domain.schedule.entity;
 
 
 import com.money.domain.member.entity.Member;
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
