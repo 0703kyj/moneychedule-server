@@ -30,4 +30,12 @@ public interface DevApi {
             @Schema(description = "이메일", example = "0703kyj@naver.com")
             @RequestParam String email
     );
+
+    @PostMapping("/teams")
+    void setTeam(
+            @Schema(description = "멤버1", example = "1")
+            @RequestParam Long member1Id,
+            @Schema(description = "멤버2", example = "2")
+            @RequestParam Long member2Id
+    );
 }

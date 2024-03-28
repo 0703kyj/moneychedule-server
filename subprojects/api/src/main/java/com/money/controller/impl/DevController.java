@@ -7,6 +7,8 @@ import com.money.domain.member.exception.NotFoundMemberException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.payment.entity.enums.PaymentType;
 import com.money.domain.payment.service.PaymentService;
+import com.money.domain.team.entity.Team;
+import com.money.domain.team.service.TeamService;
 import com.money.dto.response.auth.TokenResponse;
 import com.money.service.auth.AuthService;
 import com.money.system.config.jwt.JwtFilter;
@@ -15,6 +17,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,6 +25,7 @@ public class DevController implements DevApi {
 
     private final MemberRepository memberRepository;
     private final AuthService authService;
+    private final TeamService teamService;
     private final PaymentService paymentService;
 
     @Override
@@ -60,5 +64,18 @@ public class DevController implements DevApi {
         for (int i = 1; i < 100; i++) {
             paymentService.savePayment(member.getId(), "1", (long) i, PaymentType.WITHDRAW, "식비");
         }
+    }
+
+    @Override
+    @Transactional
+    public void setTeam(Long member1Id, Long member2Id) {
+        Member member1 = memberRepository.findById(member1Id)
+                .orElseThrow(NotFoundMemberException::new);
+        Member member2 = memberRepository.findById(member2Id)
+                .orElseThrow(NotFoundMemberException::new);
+
+        Team newTeam = teamService.createNewTeam();
+        member1.updateTeam(newTeam);
+        member2.updateTeam(newTeam);
     }
 }

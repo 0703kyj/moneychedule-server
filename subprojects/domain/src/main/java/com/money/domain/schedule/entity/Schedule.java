@@ -59,4 +59,14 @@ public class Schedule {
                 .repeatType(RepeatType.fromString(scheduleDto.repeatType()))
                 .build();
     }
+
+    public Schedule update(Label newLabel, ScheduleDto scheduleDto) {
+        this.label = newLabel;
+        this.memo = scheduleDto.memo();
+        this.startDate.updateDateAndTime(scheduleDto.startDate(), scheduleDto.startTime());
+        this.endDate.updateDateAndTime(scheduleDto.endDate(), scheduleDto.endTime());
+        this.repeatType = RepeatType.fromString(scheduleDto.repeatType());
+
+        return this;
+    }
 }

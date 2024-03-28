@@ -25,4 +25,9 @@ public class EventDate {
     public static EventDate of(LocalDate date, LocalTime time) {
         return new EventDate(date, time);
     }
+
+    public void updateDateAndTime(LocalDate date, LocalTime time) {
+        this.date = date;
+        this.time = time;
+    }
 }
