@@ -62,6 +62,12 @@ public class MemberService {
                 .orElseThrow(NotFoundMemberException::new);
     }
 
+    public void validateMember(Long memberId) {
+        if (Boolean.FALSE.equals(memberRepository.existsById(memberId))) {
+            throw new NotFoundMemberException();
+        }
+    }
+
     public Optional<Long> getTeamIfExist(Member member) {
         if (member.getTeam() != null) {
             return Optional.of(member.getTeam().getId());

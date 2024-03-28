@@ -10,13 +10,16 @@ import com.money.domain.schedule.repository.ScheduleRepository;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
+@Slf4j
 public class ScheduleService {
 
     private final MemberService memberService;
@@ -32,14 +35,51 @@ public class ScheduleService {
         Label findLabel = labelService.findById(scheduleDto.labelId());
         Schedule schedule = scheduleRepository.save(Schedule.of(findLabel, scheduleDto));
 
-        attendeeService.addAttendee(findMember, schedule);
-        for (Long attendeeId : scheduleDto.members()) {
+        addAttendees(scheduleDto.members(), findMember, schedule);
+        return schedule;
+    }
+
+    @Transactional
+    public Schedule updateScheduleContent(Long memberId, Long scheduleId, ScheduleDto scheduleDto) {
+
+        attendeeService.validateAttendee(memberId, scheduleId);
+
+        Schedule findSchedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(NotFoundScheduleException::new);
+
+        ScheduleDto updateScheduleDto = validateScheduleDto(findSchedule, scheduleDto);
+
+        if (scheduleDto.labelId() != null) {
+            Label findLabel  = labelService.findById(scheduleDto.labelId());
+            return findSchedule.update(findLabel, updateScheduleDto);
+        }
+        return findSchedule.update(findSchedule.getLabel(), updateScheduleDto);
+    }
+
+    @Transactional
+    public Schedule updateScheduleAttendee(Long memberId, Long scheduleId, List<Long> members) {
+        Member findMember = memberService.findById(memberId);
+        Schedule findSchedule = findById(memberId, scheduleId);
+
+        members.add(findMember.getId());
+        log.info("members: {}", members.stream()
+                .map(String::valueOf)
+                .collect(Collectors.joining(", ")));
+        attendeeService.deleteAttendeesNotInMembers(members, findSchedule.getId());
+
+        addAttendees(members, findMember, findSchedule);
+
+        return findSchedule;
+    }
+
+    private void addAttendees(List<Long> members, Member findMember, Schedule findSchedule) {
+        attendeeService.addAttendee(findMember, findSchedule);
+        for (Long attendeeId : members) {
             Member attendee = memberService.findById(attendeeId);
-            if (Objects.equals(attendee.getTeam().getId(), findMember.getTeam().getId())) {
-                attendeeService.addAttendee(attendee, schedule);
+            if (Boolean.TRUE.equals(checkSameTeam(attendee, findMember))) {
+                attendeeService.addAttendee(attendee, findSchedule);
             }
         }
-        return schedule;
     }
 
     public Schedule findById(Long memberId, Long scheduleId) {
@@ -59,5 +99,28 @@ public class ScheduleService {
         Member findMember = memberService.findById(memberId);
 
         return scheduleRepository.getSchedulePerMonth(month, findMember.getId());
+    }
+
+    private Boolean checkSameTeam(Member attendee, Member findMember) {
+        return Objects.equals(attendee.getTeam().getId(), findMember.getTeam().getId());
+    }
+
+    private ScheduleDto validateScheduleDto(Schedule findSchedule, ScheduleDto scheduleDto) {
+        return ScheduleDto.builder()
+                .labelId(isBlankContent(findSchedule.getId(), scheduleDto.labelId()))
+                .memo(isBlankContent(findSchedule.getMemo(), scheduleDto.memo()))
+                .startDate(isBlankContent(findSchedule.getStartDate().getDate(),scheduleDto.startDate()))
+                .startTime(isBlankContent(findSchedule.getStartDate().getTime(),scheduleDto.startTime()))
+                .endDate(isBlankContent(findSchedule.getEndDate().getDate(),scheduleDto.endDate()))
+                .endTime(isBlankContent(findSchedule.getEndDate().getTime(),scheduleDto.endTime()))
+                .repeatType(isBlankContent(findSchedule.getRepeatType().getValue(),scheduleDto.repeatType()))
+                .build();
+    }
+
+    private <T>T isBlankContent(T oldContent, T newContent){
+        if (newContent == null) {
+            return oldContent;
+        }
+        return newContent;
     }
 }
