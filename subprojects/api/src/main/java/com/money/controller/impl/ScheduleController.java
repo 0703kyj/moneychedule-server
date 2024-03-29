@@ -71,6 +71,14 @@ public class ScheduleController implements ScheduleApi {
     }
 
     @Override
+    public ResponseEntity<ScheduleIdResponse> deleteSchedule(Long memberId, Long scheduleId) {
+        scheduleService.deleteSchedule(memberId, scheduleId);
+
+        ScheduleIdResponse response = ScheduleIdResponse.from(scheduleId);
+        return ResponseEntity.ok(response);
+    }
+
+    @Override
     public ResponseEntity<ScheduleUpdateResponse> updateScheduleContent(Long memberId, Long scheduleId,
             ScheduleUpdateRequest request) {
         ScheduleDto scheduleDto = getScheduleDto(request);

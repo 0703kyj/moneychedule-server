@@ -15,6 +15,7 @@ import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,12 @@ public interface ScheduleApi {
 
     @GetMapping("/{id}")
     ResponseEntity<ScheduleResponse> getSchedule(
+            @MemberId Long memberId,
+            @PathVariable("id") Long scheduleId
+    );
+
+    @DeleteMapping("{id}")
+    ResponseEntity<ScheduleIdResponse> deleteSchedule(
             @MemberId Long memberId,
             @PathVariable("id") Long scheduleId
     );

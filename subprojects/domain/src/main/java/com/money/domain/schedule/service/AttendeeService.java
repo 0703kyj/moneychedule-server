@@ -6,7 +6,6 @@ import com.money.domain.schedule.entity.Schedule;
 import com.money.domain.schedule.exception.InvalidAccessScheduleException;
 import com.money.domain.schedule.repository.AttendeeRepository;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -39,10 +38,12 @@ public class AttendeeService {
     public void deleteAttendeesNotInMembers(List<Long> members, Long scheduleId) {
         List<Long> deleteMembersInAttendee = attendeeRepository.getDeleteMembersInAttendee(members, scheduleId);
 
-        log.info("deleteMembersInAttendee: {}", members.stream()
-                .map(String::valueOf)
-                .collect(Collectors.joining(", ")));
         attendeeRepository.deleteAttendeesByMemberIds(deleteMembersInAttendee);
+    }
+
+    @Transactional
+    public void deleteAttendeesBySchedule(Schedule findSchedule) {
+        attendeeRepository.deleteAllBySchedule(findSchedule);
     }
 
     public List<Long> findAllMemberIdInSchedule(Schedule schedule) {
@@ -54,4 +55,5 @@ public class AttendeeService {
     private Boolean checkExistMemberInSchedule(Long memberId, Long scheduleId) {
         return attendeeRepository.existsByMemberIdAndScheduleId(memberId, scheduleId);
     }
+
 }
