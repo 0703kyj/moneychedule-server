@@ -72,14 +72,14 @@ public class ScheduleService {
         return findSchedule;
     }
 
-    private void addAttendees(List<Long> members, Member findMember, Schedule findSchedule) {
-        attendeeService.addAttendee(findMember, findSchedule);
-        for (Long attendeeId : members) {
-            Member attendee = memberService.findById(attendeeId);
-            if (Boolean.TRUE.equals(checkSameTeam(attendee, findMember))) {
-                attendeeService.addAttendee(attendee, findSchedule);
-            }
-        }
+    @Transactional
+    public void deleteSchedule(Long memberId, Long scheduleId) {
+        Schedule findSchedule = findById(memberId, scheduleId);
+
+        //추후 리펙토링 필요
+        attendeeService.deleteAttendeesBySchedule(findSchedule);
+
+        scheduleRepository.delete(findSchedule);
     }
 
     public Schedule findById(Long memberId, Long scheduleId) {
@@ -123,4 +123,15 @@ public class ScheduleService {
         }
         return newContent;
     }
+
+    private void addAttendees(List<Long> members, Member findMember, Schedule findSchedule) {
+        attendeeService.addAttendee(findMember, findSchedule);
+        for (Long attendeeId : members) {
+            Member attendee = memberService.findById(attendeeId);
+            if (Boolean.TRUE.equals(checkSameTeam(attendee, findMember))) {
+                attendeeService.addAttendee(attendee, findSchedule);
+            }
+        }
+    }
+
 }

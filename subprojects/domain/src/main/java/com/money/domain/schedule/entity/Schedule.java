@@ -1,5 +1,6 @@
 package com.money.domain.schedule.entity;
 
+import com.money.domain.DeletableBaseEntity;
 import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.enums.RepeatType;
 import jakarta.persistence.AttributeOverride;
@@ -25,7 +26,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Schedule {
+public class Schedule extends DeletableBaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
