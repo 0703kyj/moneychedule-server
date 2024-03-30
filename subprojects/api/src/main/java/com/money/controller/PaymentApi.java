@@ -33,7 +33,7 @@ public interface PaymentApi {
             @RequestBody @Valid PaymentRequest request
     );
 
-    @GetMapping(value = "/month/{type}", params = {"year","month"})
+    @GetMapping(value = "/amount/month/{type}", params = {"year","month"})
     ResponseEntity<TotalMonthPaymentResponse> getTotalMonthPayment(
             @MemberId Long memberId,
             @PathVariable("type") String type,
