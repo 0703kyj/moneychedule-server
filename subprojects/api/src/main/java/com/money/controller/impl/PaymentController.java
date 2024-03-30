@@ -51,7 +51,7 @@ public class PaymentController implements PaymentApi {
         Long totalWithdrawPerMonth = paymentAmountService.getTotalPaymentPerMonth(memberId, date, paymentType);
 
         TotalMonthPaymentResponse response = TotalMonthPaymentResponse.of(
-                date.getMonth().getValue(), totalWithdrawPerMonth);
+                date.getYear(),date.getMonth().getValue(), totalWithdrawPerMonth);
 
         return ResponseEntity.ok(response);
     }
