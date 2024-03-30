@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @Tag(name = "일정 API", description = "일정 관련 API")
-@RequestMapping("/api/v1/schedule")
+@RequestMapping("/api/v1/schedules")
 @SecurityRequirement(name = "JWT")
 public interface ScheduleApi {
 

@@ -30,7 +30,7 @@ public interface MemberApi {
             @MemberId Long memberId
     );
 
-    @PostMapping("/team")
+    @PostMapping("/invite-code")
     ResponseEntity<SetTeamResponse> setTeam(
             @MemberId Long memberId,
             @RequestBody SetTeamRequest request
