@@ -5,7 +5,10 @@ import com.money.domain.member.service.MemberService;
 import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.Label;
 import com.money.domain.schedule.entity.Schedule;
+import com.money.domain.schedule.entity.ScheduleContent;
+import com.money.domain.schedule.entity.enums.RepeatType;
 import com.money.domain.schedule.exception.NotFoundScheduleException;
+import com.money.domain.schedule.repository.ScheduleContentRepository;
 import com.money.domain.schedule.repository.ScheduleRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -26,6 +29,7 @@ public class ScheduleService {
     private final LabelService labelService;
     private final AttendeeService attendeeService;
     private final ScheduleRepository scheduleRepository;
+    private final ScheduleContentRepository scheduleContentRepository;
 
     @Transactional
     public Schedule saveSchedule(Long memberId, ScheduleDto scheduleDto) {
@@ -33,7 +37,14 @@ public class ScheduleService {
         Member findMember = memberService.findById(memberId);
 
         Label findLabel = labelService.findById(scheduleDto.labelId());
-        Schedule schedule = scheduleRepository.save(Schedule.of(findLabel, scheduleDto));
+        ScheduleContent content = ScheduleContent.builder()
+                .label(findLabel)
+                .memo(scheduleDto.memo())
+                .repeatType(RepeatType.fromString(scheduleDto.repeatType()))
+                .build();
+
+        ScheduleContent savedContent = scheduleContentRepository.save(content);
+        Schedule schedule = scheduleRepository.save(Schedule.of(savedContent, scheduleDto));
 
         addAttendees(scheduleDto.members(), findMember, schedule);
         return schedule;
@@ -53,7 +64,7 @@ public class ScheduleService {
             Label findLabel  = labelService.findById(scheduleDto.labelId());
             return findSchedule.update(findLabel, updateScheduleDto);
         }
-        return findSchedule.update(findSchedule.getLabel(), updateScheduleDto);
+        return findSchedule.update(findSchedule.getContent().getLabel(), updateScheduleDto);
     }
 
     @Transactional
@@ -108,12 +119,12 @@ public class ScheduleService {
     private ScheduleDto validateScheduleDto(Schedule findSchedule, ScheduleDto scheduleDto) {
         return ScheduleDto.builder()
                 .labelId(isBlankContent(findSchedule.getId(), scheduleDto.labelId()))
-                .memo(isBlankContent(findSchedule.getMemo(), scheduleDto.memo()))
+                .memo(isBlankContent(findSchedule.getContent().getMemo(), scheduleDto.memo()))
                 .startDate(isBlankContent(findSchedule.getStartDate().getDate(),scheduleDto.startDate()))
                 .startTime(isBlankContent(findSchedule.getStartDate().getTime(),scheduleDto.startTime()))
                 .endDate(isBlankContent(findSchedule.getEndDate().getDate(),scheduleDto.endDate()))
                 .endTime(isBlankContent(findSchedule.getEndDate().getTime(),scheduleDto.endTime()))
-                .repeatType(isBlankContent(findSchedule.getRepeatType().getValue(),scheduleDto.repeatType()))
+                .repeatType(isBlankContent(findSchedule.getContent().getRepeatType().getValue(),scheduleDto.repeatType()))
                 .build();
     }
 
