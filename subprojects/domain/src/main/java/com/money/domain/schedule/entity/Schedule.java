@@ -32,11 +32,6 @@ public class Schedule extends DeletableBaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "schedule_id")
     private Long id;
-    private String memo;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "label_id")
-    private Label label;
 
     @Embedded
     @AttributeOverride(name = "date", column = @Column(name = "start_date"))
@@ -48,25 +43,23 @@ public class Schedule extends DeletableBaseEntity {
     @AttributeOverride(name = "time", column = @Column(name = "end_time"))
     private EventDate endDate;
 
-    @Enumerated(EnumType.STRING)
-    private RepeatType repeatType;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "schedule_content_id")
+    ScheduleContent content;
 
-    public static Schedule of(Label label, ScheduleDto scheduleDto) {
+    public static Schedule of(ScheduleContent content, ScheduleDto scheduleDto) {
+
         return Schedule.builder()
-                .label(label)
-                .memo(scheduleDto.memo())
                 .startDate(EventDate.of(scheduleDto.startDate(),scheduleDto.startTime()))
                 .endDate(EventDate.of(scheduleDto.endDate(),scheduleDto.endTime()))
-                .repeatType(RepeatType.fromString(scheduleDto.repeatType()))
+                .content(content)
                 .build();
     }
 
     public Schedule update(Label newLabel, ScheduleDto scheduleDto) {
-        this.label = newLabel;
-        this.memo = scheduleDto.memo();
+        this.content.update(newLabel,scheduleDto.memo(),RepeatType.fromString(scheduleDto.repeatType()));
         this.startDate.updateDateAndTime(scheduleDto.startDate(), scheduleDto.startTime());
         this.endDate.updateDateAndTime(scheduleDto.endDate(), scheduleDto.endTime());
-        this.repeatType = RepeatType.fromString(scheduleDto.repeatType());
 
         return this;
     }
