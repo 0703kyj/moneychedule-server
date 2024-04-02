@@ -14,10 +14,9 @@ public record ScheduleResponse(
         ScheduleDto scheduleDto = ScheduleDto.builder()
                 .labelId(content.getLabel().getId())
                 .memo(content.getMemo())
-                .startDate(schedule.getStartDate().getDate())
-                .startTime(schedule.getStartDate().getTime())
-                .endDate(schedule.getEndDate().getDate())
-                .endTime(schedule.getEndDate().getTime())
+                .startDate(schedule.getEventDate().getDate())
+                .startTime(schedule.getEventDate().getStartTime())
+                .endTime(schedule.getEventDate().getEndTime())
                 .members(members)
                 .repeatType(content.getRepeatType().getValue())
                 .build();

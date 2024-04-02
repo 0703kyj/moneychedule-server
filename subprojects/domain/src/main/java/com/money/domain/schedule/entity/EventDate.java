@@ -19,15 +19,16 @@ import lombok.NoArgsConstructor;
 public class EventDate {
     @Column(name = "date")
     private LocalDate date;
-    @Column(name = "time")
-    private LocalTime time;
+    private LocalTime startTime;
+    private LocalTime endTime;
 
-    public static EventDate of(LocalDate date, LocalTime time) {
-        return new EventDate(date, time);
+    public static EventDate of(LocalDate date, LocalTime startTime, LocalTime endTime) {
+        return new EventDate(date, startTime, endTime);
     }
 
-    public void updateDateAndTime(LocalDate date, LocalTime time) {
+    public void updateDateAndTime(LocalDate date, LocalTime startTime, LocalTime endTime) {
         this.date = date;
-        this.time = time;
+        this.startTime = startTime;
+        this.endTime = endTime;
     }
 }
