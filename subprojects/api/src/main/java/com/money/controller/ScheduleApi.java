@@ -4,6 +4,7 @@ import com.money.config.auth.MemberId;
 import com.money.dto.request.schedule.ScheduleAttendeeRequest;
 import com.money.dto.request.schedule.ScheduleRequest;
 import com.money.dto.request.schedule.ScheduleUpdateRequest;
+import com.money.dto.response.schedule.ScheduleIdListResponse;
 import com.money.dto.response.schedule.ScheduleIdResponse;
 import com.money.dto.response.schedule.ScheduleListResponse;
 import com.money.dto.response.schedule.ScheduleResponse;
@@ -32,7 +33,7 @@ import org.springframework.web.bind.annotation.RestController;
 public interface ScheduleApi {
 
     @PostMapping
-    ResponseEntity<ScheduleIdResponse> saveSchedule(
+    ResponseEntity<ScheduleIdListResponse> saveSchedule(
             @MemberId Long memberId,
             @RequestBody ScheduleRequest request
     );

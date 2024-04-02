@@ -2,6 +2,7 @@ package com.money.domain.schedule.repository;
 
 import static com.money.domain.schedule.entity.QAttendee.*;
 import static com.money.domain.schedule.entity.QSchedule.*;
+import static com.money.domain.schedule.entity.QScheduleContent.scheduleContent;
 
 import com.money.domain.schedule.entity.Schedule;
 import com.querydsl.core.types.dsl.BooleanExpression;
@@ -23,9 +24,9 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
         return queryFactory.select(schedule)
                 .from(attendee)
                 .join(attendee.schedule, schedule)
+                .join(schedule.content, scheduleContent).fetchJoin()
                 .where(attendee.member.id.eq(memberId),
-                        betweenMonthOfStartDate(startOfMonth, endOfMonth)
-                        .or(betweenMonthOfEndDate(startOfMonth, endOfMonth)))
+                        betweenMonthOfEventDate(startOfMonth, endOfMonth))
                 .fetch();
     }
 
@@ -36,16 +37,11 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
                 .from(attendee)
                 .join(attendee.schedule, schedule)
                 .where(attendee.member.id.eq(memberId),
-                        schedule.startDate.date.loe(day)
-                                .and(schedule.endDate.date.goe(day)))
+                        schedule.eventDate.date.eq(day))
                 .fetch();
     }
 
-    private BooleanExpression betweenMonthOfStartDate(LocalDate startOfMonth, LocalDate endOfMonth) {
-        return schedule.startDate.date.between(startOfMonth, endOfMonth);
-    }
-
-    private BooleanExpression betweenMonthOfEndDate(LocalDate startOfMonth, LocalDate endOfMonth) {
-        return schedule.endDate.date.between(startOfMonth, endOfMonth);
+    private BooleanExpression betweenMonthOfEventDate(LocalDate startOfMonth, LocalDate endOfMonth) {
+        return schedule.eventDate.date.between(startOfMonth, endOfMonth);
     }
 }

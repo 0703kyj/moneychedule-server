@@ -6,11 +6,12 @@ import java.util.List;
 import lombok.Builder;
 
 @Builder
-public record ScheduleDto(
+public record TotalScheduleDto(
         Long labelId,
         String memo,
         LocalDate startDate,
         LocalTime startTime,
+        LocalDate endDate,
         LocalTime endTime,
         String repeatType,
         List<Long> members

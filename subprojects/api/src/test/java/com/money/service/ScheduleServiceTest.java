@@ -7,6 +7,7 @@ import com.money.domain.member.entity.enums.Platform;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
 import com.money.domain.schedule.dto.ScheduleDto;
+import com.money.domain.schedule.dto.TotalScheduleDto;
 import com.money.domain.schedule.entity.Attendee;
 import com.money.domain.schedule.entity.Schedule;
 import com.money.domain.schedule.repository.AttendeeRepository;
@@ -60,7 +61,7 @@ class ScheduleServiceTest {
         memberService.enterTeam(member2, newTeam);
         memberService.enterTeam(member3, newTeam);
 
-        ScheduleDto scheduleDto = ScheduleDto.builder()
+        TotalScheduleDto scheduleDto = TotalScheduleDto.builder()
                 .memo("memo")
                 .labelId(1L)
                 .startDate(LocalDate.now())
@@ -71,10 +72,14 @@ class ScheduleServiceTest {
                 .members(List.of(member2.getId(), member3.getId(), member4.getId()))
                 .build();
 
-        Schedule schedule = scheduleService.saveSchedule(member.getId(), scheduleDto);
+        List<Long> schedule = scheduleService.saveSchedule(member.getId(), scheduleDto);
 
-        List<Attendee> attendees = attendeeRepository.findBySchedule(schedule);
+        assertThat(attendeeRepository.existsByMemberIdAndScheduleId(member.getId(),schedule.get(0)))
+                .isTrue();
+        assertThat(attendeeRepository.existsByMemberIdAndScheduleId(member2.getId(),schedule.get(0)))
+                .isTrue();
+        assertThat(attendeeRepository.existsByMemberIdAndScheduleId(member3.getId(),schedule.get(0)))
+                .isTrue();
 
-        assertThat(attendees).hasSize(3);
     }
 }

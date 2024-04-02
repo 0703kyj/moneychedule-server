@@ -7,14 +7,14 @@ import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -34,32 +34,23 @@ public class Schedule extends DeletableBaseEntity {
     private Long id;
 
     @Embedded
-    @AttributeOverride(name = "date", column = @Column(name = "start_date"))
-    @AttributeOverride(name = "time", column = @Column(name = "start_time"))
-    private EventDate startDate;
-
-    @Embedded
-    @AttributeOverride(name = "date", column = @Column(name = "end_date"))
-    @AttributeOverride(name = "time", column = @Column(name = "end_time"))
-    private EventDate endDate;
+    private EventDate eventDate;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "schedule_content_id")
     ScheduleContent content;
 
-    public static Schedule of(ScheduleContent content, ScheduleDto scheduleDto) {
+    public static Schedule of(ScheduleContent content, EventDate eventDate) {
 
         return Schedule.builder()
-                .startDate(EventDate.of(scheduleDto.startDate(),scheduleDto.startTime()))
-                .endDate(EventDate.of(scheduleDto.endDate(),scheduleDto.endTime()))
+                .eventDate(eventDate)
                 .content(content)
                 .build();
     }
 
     public Schedule update(Label newLabel, ScheduleDto scheduleDto) {
         this.content.update(newLabel,scheduleDto.memo(),RepeatType.fromString(scheduleDto.repeatType()));
-        this.startDate.updateDateAndTime(scheduleDto.startDate(), scheduleDto.startTime());
-        this.endDate.updateDateAndTime(scheduleDto.endDate(), scheduleDto.endTime());
+        this.eventDate.updateDateAndTime(scheduleDto.startDate(), scheduleDto.startTime(), scheduleDto.endTime());
 
         return this;
     }
