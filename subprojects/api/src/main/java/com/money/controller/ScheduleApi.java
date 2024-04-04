@@ -1,9 +1,9 @@
 package com.money.controller;
 
 import com.money.config.auth.MemberId;
-import com.money.dto.request.schedule.ScheduleAttendeeRequest;
+import com.money.dto.request.schedule.ScheduleAttendeeUpdateRequest;
 import com.money.dto.request.schedule.ScheduleRequest;
-import com.money.dto.request.schedule.ScheduleUpdateRequest;
+import com.money.dto.request.schedule.ScheduleContentUpdateRequest;
 import com.money.dto.response.schedule.ScheduleIdListResponse;
 import com.money.dto.response.schedule.ScheduleIdResponse;
 import com.money.dto.response.schedule.ScheduleListResponse;
@@ -77,13 +77,13 @@ public interface ScheduleApi {
     ResponseEntity<ScheduleUpdateResponse> updateScheduleContent(
             @MemberId Long memberId,
             @PathVariable("id") Long scheduleId,
-            @RequestBody ScheduleUpdateRequest request
+            @RequestBody ScheduleContentUpdateRequest request
     );
 
     @PutMapping("/attendee/{id}")
     ResponseEntity<ScheduleResponse> updateScheduleAttendee(
             @MemberId Long memberId,
             @PathVariable("id") Long scheduleId,
-            @RequestBody ScheduleAttendeeRequest request
+            @RequestBody ScheduleAttendeeUpdateRequest request
     );
 }

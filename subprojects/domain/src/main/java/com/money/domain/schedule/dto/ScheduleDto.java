@@ -11,6 +11,7 @@ public record ScheduleDto(
         String memo,
         LocalDate startDate,
         LocalTime startTime,
+        LocalDate endDate,
         LocalTime endTime,
         String repeatType,
         List<Long> members

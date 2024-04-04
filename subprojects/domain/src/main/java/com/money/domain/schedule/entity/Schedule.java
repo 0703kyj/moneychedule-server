@@ -3,7 +3,6 @@ package com.money.domain.schedule.entity;
 import com.money.domain.DeletableBaseEntity;
 import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.enums.RepeatType;
-import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.Column;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
@@ -13,8 +12,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -50,7 +47,8 @@ public class Schedule extends DeletableBaseEntity {
 
     public Schedule update(Label newLabel, ScheduleDto scheduleDto) {
         this.content.update(newLabel,scheduleDto.memo(),RepeatType.fromString(scheduleDto.repeatType()));
-        this.eventDate.updateDateAndTime(scheduleDto.startDate(), scheduleDto.startTime(), scheduleDto.endTime());
+        this.eventDate.updateDateAndTime(scheduleDto.startDate(),scheduleDto.endDate() , scheduleDto.startTime(),
+                scheduleDto.endTime());
 
         return this;
     }

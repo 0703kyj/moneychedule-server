@@ -24,9 +24,10 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
         return queryFactory.select(schedule)
                 .from(attendee)
                 .join(attendee.schedule, schedule)
-                .join(schedule.content, scheduleContent).fetchJoin()
+                .join(schedule.content,scheduleContent).fetchJoin()
                 .where(attendee.member.id.eq(memberId),
-                        betweenMonthOfEventDate(startOfMonth, endOfMonth))
+                        betweenMonthOfStartDate(startOfMonth, endOfMonth)
+                                .or(betweenMonthOfEndDate(startOfMonth, endOfMonth)))
                 .fetch();
     }
 
@@ -36,12 +37,18 @@ public class ScheduleRepositoryCustomImpl implements ScheduleRepositoryCustom {
         return queryFactory.select(schedule)
                 .from(attendee)
                 .join(attendee.schedule, schedule)
+                .join(schedule.content,scheduleContent).fetchJoin()
                 .where(attendee.member.id.eq(memberId),
-                        schedule.eventDate.date.eq(day))
+                        schedule.eventDate.startDate.loe(day)
+                                .and(schedule.eventDate.endDate.goe(day)))
                 .fetch();
     }
 
-    private BooleanExpression betweenMonthOfEventDate(LocalDate startOfMonth, LocalDate endOfMonth) {
-        return schedule.eventDate.date.between(startOfMonth, endOfMonth);
+    private BooleanExpression betweenMonthOfStartDate(LocalDate startOfMonth, LocalDate endOfMonth) {
+        return schedule.eventDate.startDate.between(startOfMonth, endOfMonth);
+    }
+
+    private BooleanExpression betweenMonthOfEndDate(LocalDate startOfMonth, LocalDate endOfMonth) {
+        return schedule.eventDate.endDate.between(startOfMonth, endOfMonth);
     }
 }

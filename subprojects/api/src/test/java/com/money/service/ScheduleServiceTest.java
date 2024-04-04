@@ -7,9 +7,6 @@ import com.money.domain.member.entity.enums.Platform;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
 import com.money.domain.schedule.dto.ScheduleDto;
-import com.money.domain.schedule.dto.TotalScheduleDto;
-import com.money.domain.schedule.entity.Attendee;
-import com.money.domain.schedule.entity.Schedule;
 import com.money.domain.schedule.repository.AttendeeRepository;
 import com.money.domain.schedule.repository.ScheduleRepository;
 import com.money.domain.schedule.service.ScheduleService;
@@ -61,7 +58,7 @@ class ScheduleServiceTest {
         memberService.enterTeam(member2, newTeam);
         memberService.enterTeam(member3, newTeam);
 
-        TotalScheduleDto scheduleDto = TotalScheduleDto.builder()
+        ScheduleDto scheduleDto = ScheduleDto.builder()
                 .memo("memo")
                 .labelId(1L)
                 .startDate(LocalDate.now())

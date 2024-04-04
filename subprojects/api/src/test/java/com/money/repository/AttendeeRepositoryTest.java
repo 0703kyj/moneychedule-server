@@ -9,10 +9,14 @@ import com.money.domain.member.entity.enums.Platform;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.Attendee;
+import com.money.domain.schedule.entity.EventDate;
 import com.money.domain.schedule.entity.Label;
 import com.money.domain.schedule.entity.Schedule;
+import com.money.domain.schedule.entity.ScheduleContent;
+import com.money.domain.schedule.entity.enums.RepeatType;
 import com.money.domain.schedule.repository.AttendeeRepository;
 import com.money.domain.schedule.repository.LabelRepository;
+import com.money.domain.schedule.repository.ScheduleContentRepository;
 import com.money.domain.schedule.repository.ScheduleRepository;
 import java.time.LocalDate;
 import java.time.LocalTime;
@@ -37,6 +41,8 @@ class AttendeeRepositoryTest {
     private LabelRepository labelRepository;
     @Autowired
     private AttendeeRepository attendeeRepository;
+    @Autowired
+    private ScheduleContentRepository scheduleContentRepository;
 
     @Test
     void 사용자id와_스케쥴id로_참석자를_찾을_수_있다() {
@@ -55,7 +61,22 @@ class AttendeeRepositoryTest {
                 .members(List.of())
                 .build();
 
-        Schedule schedule = scheduleRepository.save(Schedule.of(label,scheduleDto));
+        ScheduleContent content = ScheduleContent.builder()
+                .label(label)
+                .memo(scheduleDto.memo())
+                .repeatType(RepeatType.fromString(scheduleDto.repeatType()))
+                .build();
+
+        ScheduleContent savedContent = scheduleContentRepository.save(content);
+
+
+        LocalDate date = scheduleDto.startDate();
+        LocalTime startTime = scheduleDto.startTime();
+        LocalTime endTime = scheduleDto.endTime();
+
+        EventDate eventDate = EventDate.of(date, date, startTime, endTime);
+
+        Schedule schedule = scheduleRepository.save(Schedule.of(savedContent,eventDate));
         attendeeRepository.save(Attendee.of(member, schedule));
 
         assertThat(attendeeRepository.existsByMemberIdAndScheduleId(member.getId(),
