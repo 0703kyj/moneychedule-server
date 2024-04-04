@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
-public record ScheduleUpdateRequest(
+public record ScheduleContentUpdateRequest(
         @Schema(description = "라벨Id", example = "1")
         Long labelId,
         @Schema(description = "세부 내용", example = "메모")

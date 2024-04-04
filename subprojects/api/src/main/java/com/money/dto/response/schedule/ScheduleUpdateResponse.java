@@ -13,7 +13,7 @@ public record ScheduleUpdateResponse(
         ScheduleDto scheduleDto = ScheduleDto.builder()
                 .labelId(content.getLabel().getId())
                 .memo(content.getMemo())
-                .startDate(schedule.getEventDate().getDate())
+                .startDate(schedule.getEventDate().getStartDate())
                 .startTime(schedule.getEventDate().getStartTime())
                 .repeatType(content.getRepeatType().getValue())
                 .build();

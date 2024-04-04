@@ -2,18 +2,18 @@ package com.money.controller.impl;
 
 import com.money.controller.ScheduleApi;
 import com.money.domain.schedule.dto.ScheduleDto;
-import com.money.domain.schedule.dto.TotalScheduleDto;
 import com.money.domain.schedule.entity.Schedule;
 import com.money.domain.schedule.service.AttendeeService;
 import com.money.domain.schedule.service.ScheduleService;
-import com.money.dto.request.schedule.ScheduleAttendeeRequest;
+import com.money.dto.request.schedule.ScheduleAttendeeUpdateRequest;
 import com.money.dto.request.schedule.ScheduleRequest;
-import com.money.dto.request.schedule.ScheduleUpdateRequest;
+import com.money.dto.request.schedule.ScheduleContentUpdateRequest;
 import com.money.dto.response.schedule.ScheduleIdListResponse;
 import com.money.dto.response.schedule.ScheduleIdResponse;
 import com.money.dto.response.schedule.ScheduleListResponse;
 import com.money.dto.response.schedule.ScheduleResponse;
 import com.money.dto.response.schedule.ScheduleUpdateResponse;
+import com.money.service.schedule.ScheduleRepeatService;
 import com.money.util.LocalDateConverter;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,13 +27,14 @@ import org.springframework.stereotype.Controller;
 public class ScheduleController implements ScheduleApi {
 
     private final ScheduleService scheduleService;
+    private final ScheduleRepeatService scheduleRepeatService;
     private final AttendeeService attendeeService;
 
     @Override
     public ResponseEntity<ScheduleIdListResponse> saveSchedule(Long memberId, ScheduleRequest request) {
-        TotalScheduleDto totalScheduleDto = getTotalScheduleDto(request);
+        ScheduleDto scheduleDto = getScheduleDto(request);
 
-        List<Long> schedule = scheduleService.saveSchedule(memberId, totalScheduleDto);
+        List<Long> schedule = scheduleRepeatService.saveRepeatSchedule(memberId, scheduleDto);
         List<ScheduleIdResponse> scheduleIdResponses = schedule.stream().map(ScheduleIdResponse::from).toList();
 
         ScheduleIdListResponse response = ScheduleIdListResponse.from(scheduleIdResponses);
@@ -83,8 +84,8 @@ public class ScheduleController implements ScheduleApi {
 
     @Override
     public ResponseEntity<ScheduleUpdateResponse> updateScheduleContent(Long memberId, Long scheduleId,
-            ScheduleUpdateRequest request) {
-        ScheduleDto scheduleDto = getTotalScheduleDto(request);
+            ScheduleContentUpdateRequest request) {
+        ScheduleDto scheduleDto = getScheduleDto(request);
 
         Schedule schedule = scheduleService.updateScheduleContent(memberId, scheduleId,
                 scheduleDto);
@@ -95,7 +96,7 @@ public class ScheduleController implements ScheduleApi {
 
     @Override
     public ResponseEntity<ScheduleResponse> updateScheduleAttendee(Long memberId, Long scheduleId,
-            ScheduleAttendeeRequest request) {
+            ScheduleAttendeeUpdateRequest request) {
 
         Schedule schedule = scheduleService.updateScheduleAttendee(memberId, scheduleId,
                 request.members());
@@ -115,8 +116,8 @@ public class ScheduleController implements ScheduleApi {
         return ScheduleListResponse.from(scheduleResponses);
     }
 
-    private TotalScheduleDto getTotalScheduleDto(ScheduleRequest request) {
-        return TotalScheduleDto.builder()
+    private ScheduleDto getScheduleDto(ScheduleRequest request) {
+        return ScheduleDto.builder()
                 .labelId(request.labelId())
                 .memo(request.memo())
                 .startDate(request.startDate())
@@ -128,7 +129,7 @@ public class ScheduleController implements ScheduleApi {
                 .build();
     }
 
-    private ScheduleDto getTotalScheduleDto(ScheduleUpdateRequest request) {
+    private ScheduleDto getScheduleDto(ScheduleContentUpdateRequest request) {
         return ScheduleDto.builder()
                 .labelId(request.labelId())
                 .memo(request.memo())
