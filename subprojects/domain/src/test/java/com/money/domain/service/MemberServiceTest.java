@@ -10,6 +10,8 @@ import com.money.domain.member.exception.MemberAlreadyExistException;
 import com.money.domain.member.repository.MemberRepository;
 import com.money.domain.member.service.MemberService;
 import com.money.domain.member.entity.enums.Platform;
+import com.money.domain.team.entity.Team;
+import com.money.domain.team.service.TeamService;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,6 +28,8 @@ class MemberServiceTest {
 
     @Mock
     MemberRepository memberRepository;
+    @Mock
+    TeamService teamService;
 
     @Test
     @DisplayName("멤버를 저장한다.")
@@ -34,6 +38,7 @@ class MemberServiceTest {
 
         when(memberRepository.save(any())).thenReturn(member);
         when(memberRepository.findByEmailAndPlatform(any(), any())).thenReturn(Optional.empty());
+        when(teamService.createNewTeam()).thenReturn(new Team());
 
         Member saveMember = memberService.saveMember(member);
         assertThat(saveMember).isEqualTo(member);
