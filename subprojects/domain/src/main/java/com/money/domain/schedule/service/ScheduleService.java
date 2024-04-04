@@ -5,9 +5,7 @@ import com.money.domain.member.service.MemberService;
 import com.money.domain.schedule.dto.ScheduleDto;
 import com.money.domain.schedule.entity.Label;
 import com.money.domain.schedule.entity.Schedule;
-import com.money.domain.schedule.entity.ScheduleContent;
 import com.money.domain.schedule.exception.NotFoundScheduleException;
-import com.money.domain.schedule.repository.ScheduleContentRepository;
 import com.money.domain.schedule.repository.ScheduleRepository;
 import java.time.LocalDate;
 import java.util.List;
@@ -28,7 +26,6 @@ public class ScheduleService {
     private final MemberService memberService;
     private final AttendeeService attendeeService;
     private final ScheduleRepository scheduleRepository;
-    private final ScheduleContentRepository scheduleContentRepository;
 
     @Transactional
     public Schedule updateScheduleContent(Long memberId, Long scheduleId, ScheduleDto scheduleDto) {
